@@ -80,19 +80,56 @@ nav.barre{position:fixed;bottom:0;left:0;right:0;background:var(--blanc);border-
 .nav-btn svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .nav-btn.active{color:var(--mauve-fonce);background:var(--mauve-voile);font-weight:600}
 
-/* Accueil */
-.grille{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
-.tuile{background:var(--blanc);border-radius:16px;padding:16px;box-shadow:var(--ombre);border:1px solid rgba(122,106,136,.08);text-align:left;cursor:pointer;color:var(--texte)}
-.tuile .ico{font-size:1.5rem}
-.tuile b{display:block;margin-top:6px;color:var(--ardoise)}
-.tuile small{color:var(--texte-doux)}
+/* Statistiques (Suivi) */
 .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .stat{background:var(--ardoise-voile);border-radius:14px;padding:12px;text-align:center}
 .stat b{display:block;font-size:1.4rem;color:var(--ardoise);font-family:"Noto Serif",Georgia,serif}
 .stat small{color:var(--texte-doux);font-size:.8rem}
-.objectif{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--ivoire-fonce)}
-.objectif:last-child{border-bottom:none}
-.objectif .ico{font-size:1.3rem}
+
+/* Accueil : une mise en page aérée */
+#accueil{padding-top:6px}
+.hero-accueil{position:relative;overflow:hidden;padding:30px 24px 26px;border-radius:26px;margin-bottom:22px}
+.hero-accueil::before,.hero-accueil::after{content:"";position:absolute;border-radius:50%;border:1.5px solid rgba(255,255,255,.14);pointer-events:none}
+.hero-accueil::before{width:220px;height:220px;right:-70px;top:-80px}
+.hero-accueil::after{width:140px;height:140px;right:-30px;top:-40px;border-color:rgba(227,179,189,.35)}
+.hero-accueil .salut{font-size:.85rem;letter-spacing:.14em;text-transform:uppercase;opacity:.75;margin-bottom:6px}
+.hero-accueil h1{font-size:1.9rem;margin-bottom:4px}
+.hero-accueil .btn{margin-top:24px;width:100%;white-space:nowrap;padding:14px 16px}
+.carte.section{margin-bottom:22px;padding:20px 18px 18px}
+.carte.section .section-titre{font-size:1.25rem;margin:0 0 16px;padding-bottom:12px;border-bottom:1px solid var(--ivoire-fonce)}
+.carte.section .citation{margin:0}
+.carte.section .tuile{background:var(--ivoire);box-shadow:none;border:1px solid var(--ivoire-fonce)}
+.carte.section .objectif{background:var(--ivoire);border:1px solid var(--ivoire-fonce)}
+.section-titre{font-family:Georgia,"Times New Roman",serif;font-size:1.25rem;font-weight:600;line-height:1.25;letter-spacing:normal;text-transform:none;color:var(--mauve-fonce);margin:0 4px 14px}
+.citation{border-left:3px solid var(--rose);padding:2px 0 2px 18px;margin:0 4px;font-family:"Noto Serif",Georgia,serif;font-style:italic;font-size:1.06rem;line-height:1.65;color:var(--ardoise)}
+.semaine{display:flex;background:var(--blanc);border-radius:var(--rayon);box-shadow:var(--ombre);padding:22px 6px;border:1px solid rgba(122,106,136,.08)}
+.semaine>div{flex:1;text-align:center;padding:0 6px}
+.semaine>div+div{border-left:1px solid var(--ivoire-fonce)}
+.semaine b{display:block;font-family:"Noto Serif",Georgia,serif;font-size:1.7rem;font-weight:600;color:var(--mauve-fonce);line-height:1.1}
+.semaine small{display:block;margin-top:6px;color:var(--texte-doux);font-size:.78rem;line-height:1.3}
+.semaine-pied{margin:12px 4px 0;color:var(--texte-doux);font-size:.88rem}
+.semaine-pied b{color:var(--ardoise)}
+.liens{background:var(--blanc);border-radius:var(--rayon);box-shadow:var(--ombre);overflow:hidden;border:1px solid rgba(122,106,136,.08)}
+.lien{display:flex;align-items:center;gap:14px;width:100%;padding:16px 18px;background:none;border:none;text-align:left;font-size:1rem;color:var(--texte);cursor:pointer}
+.lien+.lien{border-top:1px solid var(--ivoire-fonce)}
+.lien:active{background:var(--mauve-voile)}
+.lien .pastille{flex:none;width:42px;height:42px;border-radius:13px;background:var(--mauve-voile);display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+.lien:nth-child(2) .pastille{background:var(--ardoise-voile)}
+.lien:nth-child(3) .pastille{background:var(--rose-voile)}
+.lien b{display:block;color:var(--ardoise);font-weight:600}
+.lien small{display:block;color:var(--texte-doux);font-size:.85rem}
+.lien .fleche{margin-left:auto;color:var(--mauve-clair);font-size:1.5rem;line-height:1}
+.objectifs{display:flex;flex-direction:column;gap:12px}
+.objectif{display:flex;align-items:center;gap:14px;padding:16px 18px;background:var(--blanc);border-radius:16px;border:1px solid rgba(122,106,136,.1)}
+.objectif .vignette{flex:none;width:52px;height:52px;border-radius:12px;box-shadow:0 3px 10px rgba(60,55,80,.15)}
+.grille{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tuile{background:var(--blanc);border-radius:16px;padding:16px;box-shadow:var(--ombre);border:1px solid rgba(122,106,136,.08);text-align:left;cursor:pointer;color:var(--texte);font-size:1rem}
+.tuile:active{background:var(--mauve-voile)}
+.tuile .ico{font-size:1.5rem}
+.tuile b{display:block;margin-top:6px;color:var(--ardoise)}
+.tuile small{color:var(--texte-doux)}
+.objectif b{display:block;color:var(--ardoise)}
+.objectif .doux{font-size:.86rem}
 
 /* Programme d'échauffement */
 .programme{list-style:none;counter-reset:n}
@@ -179,15 +216,20 @@ label.case input{accent-color:var(--mauve);width:18px;height:18px}
 
 <!-- ============ ACCUEIL ============ -->
 <section class="page active" id="accueil">
-  <div class="carte hero">
-    <h1>Bonjour Anne-Sophie !</h1>
+  <div class="carte hero hero-accueil">
+    <div class="salut">Votre studio vocal</div>
+    <h1>Bonjour Anne-Sophie&nbsp;!</h1>
     <div class="date" id="date-jour"></div>
-    <div class="conseil"><b>Conseil du jour · </b><span id="conseil-jour"></span></div>
     <button class="btn btn-blanc" data-aller="echauffement">🌬️ Commencer mon échauffement</button>
   </div>
 
-  <div class="carte">
-    <h2>Ma semaine</h2>
+  <div class="carte section">
+    <h2 class="section-titre">Conseil du jour</h2>
+    <p class="citation" id="conseil-jour"></p>
+  </div>
+
+  <div class="carte section">
+    <h2 class="section-titre">Ma semaine</h2>
     <div class="stats">
       <div class="stat"><b id="acc-seances">0</b><small>séances (7 jours)</small></div>
       <div class="stat"><b id="acc-minutes">0</b><small>minutes chantées</small></div>
@@ -196,18 +238,50 @@ label.case input{accent-color:var(--mauve);width:18px;height:18px}
     </div>
   </div>
 
-  <div class="grille">
-    <button class="tuile" data-aller="exercices"><span class="ico">🎵</span><b>Exercices</b><small>Piano, chrono, bibliothèque</small></button>
-    <button class="tuile" data-aller="karaoke"><span class="ico">🎤</span><b>Karaoké</b><small>Chanter et s'enregistrer</small></button>
-    <button class="tuile" data-aller="suivi"><span class="ico">📖</span><b>Journal</b><small>Noter mon ressenti</small></button>
-    <button class="tuile" data-aller="suivi"><span class="ico">📈</span><b>Progrès</b><small>Mes statistiques</small></button>
+  <div class="carte section">
+    <h2 class="section-titre">Accès rapide</h2>
+    <div class="grille">
+      <button class="tuile" data-aller="exercices"><span class="ico">🎵</span><b>Exercices</b><small>Piano, chrono, bibliothèque</small></button>
+      <button class="tuile" data-aller="karaoke"><span class="ico">🎤</span><b>Karaoké</b><small>Chanter et s'enregistrer</small></button>
+      <button class="tuile" data-aller="suivi"><span class="ico">📖</span><b>Journal</b><small>Noter mon ressenti</small></button>
+      <button class="tuile" data-aller="suivi"><span class="ico">📈</span><b>Progrès</b><small>Mes statistiques</small></button>
+    </div>
   </div>
 
-  <div class="carte">
-    <h2>Mes objectifs</h2>
-    <div class="objectif"><span class="ico">💫</span><div><b>I Will Always Love You</b><div class="doux">Notes tenues, souffle et puissance maîtrisée.</div></div></div>
-    <div class="objectif"><span class="ico">✨</span><div><b>Chandelier</b><div class="doux">Bascules poitrine / tête et aigus puissants.</div></div></div>
-    <div class="objectif"><span class="ico">🌙</span><div><b>Voix de tête</b><div class="doux">Un son plus net, moins soufflé, et une cassure plus douce.</div></div></div>
+  <div class="carte section">
+    <h2 class="section-titre">Mes objectifs</h2>
+    <div class="objectifs">
+      <div class="objectif">
+        <svg class="vignette" viewBox="0 0 56 56" aria-hidden="true">
+          <defs><linearGradient id="vg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a7a98"/><stop offset="1" stop-color="#e3b3bd"/></linearGradient></defs>
+          <rect width="56" height="56" rx="12" fill="url(#vg1)"/>
+          <path d="M8 30 C13 22 17 22 21 28 S29 36 34 29 S42 25 48 28" fill="none" stroke="#faf7f1" stroke-width="2.6" stroke-linecap="round"/>
+          <circle cx="44" cy="15" r="3" fill="#faf7f1" opacity=".9"/>
+        </svg>
+        <div><b>I Will Always Love You</b><div class="doux">Notes tenues, souffle et puissance maîtrisée</div></div>
+      </div>
+      <div class="objectif">
+        <svg class="vignette" viewBox="0 0 56 56" aria-hidden="true">
+          <defs><linearGradient id="vg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4b5b6f"/><stop offset="1" stop-color="#7a6a88"/></linearGradient></defs>
+          <rect width="56" height="56" rx="12" fill="url(#vg2)"/>
+          <g fill="none" stroke="#faf7f1" stroke-width="2.2" stroke-linecap="round">
+            <path d="M28 7 V15"/><path d="M14 22 Q28 30 42 22"/><path d="M28 15 V24"/>
+          </g>
+          <g fill="#d6cce0"><path d="M14 26 l2.5 5 -2.5 5 -2.5-5z"/><path d="M28 28 l3 6 -3 6 -3-6z"/><path d="M42 26 l2.5 5 -2.5 5 -2.5-5z"/></g>
+          <circle cx="28" cy="45" r="2.2" fill="#e3b3bd"/>
+        </svg>
+        <div><b>Chandelier</b><div class="doux">Bascules poitrine / tête et aigus puissants</div></div>
+      </div>
+      <div class="objectif">
+        <svg class="vignette" viewBox="0 0 56 56" aria-hidden="true">
+          <defs><linearGradient id="vg3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c9b9d8"/><stop offset="1" stop-color="#eee9f3"/></linearGradient></defs>
+          <rect width="56" height="56" rx="12" fill="url(#vg3)"/>
+          <path d="M33 13 A15 15 0 1 0 43 36 A12 12 0 1 1 33 13z" fill="#faf7f1"/>
+          <circle cx="16" cy="16" r="1.6" fill="#5e5070"/><circle cx="44" cy="12" r="1.2" fill="#5e5070"/><circle cx="46" cy="22" r="1.8" fill="#e3b3bd"/>
+        </svg>
+        <div><b>Voix de tête</b><div class="doux">Un son plus net et une cassure plus douce</div></div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -312,7 +386,7 @@ label.case input{accent-color:var(--mauve);width:18px;height:18px}
   <div class="vue" id="ech-fin">
     <div class="carte hero" style="text-align:center">
       <div style="font-size:2.5rem">🌸</div>
-      <h1>Bravo Anne-Sophie !</h1>
+      <h1>Bravo Anne-Sophie&nbsp;!</h1>
       <p class="date" id="fin-resume" style="text-transform:none"></p>
       <div class="conseil">Buvez un peu d'eau, puis notez votre ressenti : c'est ce qui rend vos progrès visibles.</div>
     </div>
