@@ -2,381 +2,1064 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#f5e9ef">
-<meta name="description" content="Ton studio personnel de chant">
-<link rel="manifest" href="manifest.json">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#6f6480">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <title>Lovwane Studio</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
 <style>
-
-/* NOUVELLE IDENTITE VISUELLE LOVWANE STUDIO */
-:root {
-  --pink: #D7B3BD;
-  --pink2: #E8D9DE;
-  --mauve: #A58AAB;
-  --dark: #343C49;
-  --cream: #F4F1ED;
-  --text: #343C49;
-
-  --slate: #536579;
-  --ivory: #F4F1ED;
-  --accent: #A58AAB;
+:root{
+  --mauve:#7a6a88; --mauve-fonce:#5e5070; --mauve-clair:#d6cce0; --mauve-voile:#eee9f3;
+  --ardoise:#4b5b6f; --ardoise-clair:#8a98aa; --ardoise-voile:#e7ebf0;
+  --ivoire:#faf7f1; --ivoire-fonce:#efe9df; --blanc:#fffdf9;
+  --rose:#e3b3bd; --rose-voile:#fbf0f2;
+  --texte:#2e3340; --texte-doux:#6b7180;
+  --ombre:0 6px 20px rgba(60,55,80,.08);
+  --rayon:18px;
 }
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--ivoire);color:var(--texte)}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.5;min-height:100vh;padding-bottom:calc(86px + env(safe-area-inset-bottom))}
+h1,h2,h3{font-family:"Noto Serif",Georgia,"Times New Roman",serif;font-weight:600;color:var(--ardoise);line-height:1.25}
+button{font-family:inherit}
 
-body {
-  background: var(--ivory);
-  color: var(--text);
-}
+/* En-tête */
+.entete{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:10px;padding:calc(10px + env(safe-area-inset-top)) 18px 10px;background:rgba(250,247,241,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--ivoire-fonce)}
+.entete img{width:30px;height:30px;border-radius:8px}
+.marque{font-family:"Noto Serif",Georgia,serif;font-size:1.12rem;color:var(--mauve-fonce);letter-spacing:.02em}
+.marque span{color:var(--ardoise-clair);font-weight:400}
 
-header {
-  background: linear-gradient(
-    135deg,
-    #F4F1ED,
-    #E5DFE8
-  );
-  border-bottom: 3px solid #D7B3BD;
-}
+main{max-width:640px;margin:0 auto;padding:18px 16px}
 
-header small {
-  color: #536579;
-}
+/* Rubriques : une seule visible à la fois */
+.page{display:none}
+.page.active{display:block;animation:apparition .25s ease}
+@keyframes apparition{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.vue{display:none}
+.vue.active{display:block}
 
-header h1 {
-  color: #343C49;
-}
+.carte{background:var(--blanc);border-radius:var(--rayon);padding:18px;box-shadow:var(--ombre);margin-bottom:16px;border:1px solid rgba(122,106,136,.08)}
+.carte h2{font-size:1.15rem;margin-bottom:8px}
+.titre-page{font-size:1.55rem;margin:2px 0 4px}
+.sous-titre{color:var(--texte-doux);margin-bottom:16px}
+.doux{color:var(--texte-doux);font-size:.92rem}
 
-header p {
-  color: #536579;
-}
+.hero{background:linear-gradient(135deg,var(--mauve) 0%,var(--ardoise) 100%);color:#fff;border:none}
+.hero h1{color:#fff;font-size:1.75rem}
+.hero .date{opacity:.85;text-transform:capitalize;margin-top:2px}
+.hero .conseil{margin-top:14px;background:rgba(255,255,255,.14);border-radius:12px;padding:12px 14px;font-size:.95rem}
+.hero .conseil b{color:var(--rose)}
+.hero .btn{margin-top:16px}
 
-.card {
-  background: #FFFFFF;
-  border: 1px solid #E5E0E5;
-  box-shadow: 0 4px 16px #343C490D;
-}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:999px;padding:13px 22px;font-size:1rem;font-weight:600;cursor:pointer;transition:transform .1s,background .2s;text-decoration:none}
+.btn:active{transform:scale(.97)}
+.btn-principal{background:var(--mauve);color:#fff}
+.btn-blanc{background:#fff;color:var(--mauve-fonce)}
+.btn-secondaire{background:var(--mauve-voile);color:var(--mauve-fonce)}
+.btn-ardoise{background:var(--ardoise);color:#fff}
+.btn-discret{background:transparent;color:var(--ardoise);border:1.5px solid var(--ardoise-voile)}
+.btn-petit{padding:8px 14px;font-size:.88rem}
+.btn-large{width:100%}
+.btn:disabled{opacity:.45}
+.rangee{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
 
-button, .btn {
-  background: #536579;
-  color: #FFFFFF;
-}
+.puces{display:flex;flex-wrap:wrap;gap:8px}
+.puce{border:1.5px solid var(--mauve-clair);background:var(--blanc);color:var(--texte);border-radius:999px;padding:9px 15px;font-size:.95rem;cursor:pointer}
+.puce.active{background:var(--mauve);border-color:var(--mauve);color:#fff}
+.groupe{margin-bottom:20px}
+.groupe h3{font-family:system-ui,sans-serif;font-size:.98rem;margin-bottom:8px;color:var(--ardoise);font-weight:600}
 
-button:hover {
-  background: #3F5063;
-}
+.alerte{background:var(--rose-voile);border-left:4px solid var(--rose);padding:12px 14px;border-radius:10px;font-size:.92rem;margin:10px 0}
+.cache{display:none !important}
 
-button.secondary {
-  background: #E8D9DE;
-  color: #343C49;
-}
-
-.tag {
-  background: #EAE3EB;
-  color: #65536C;
-}
-
-input, select, textarea {
-  background: #FFFFFF;
-  border-color: #DCD6DE;
-  color: #343C49;
-}
-
-nav {
-  background: #FFFFFF;
-  border-color: #E5E0E5;
-}
-
-nav button {
-  color: #536579;
-}
-
-nav button.active {
-  color: #536579;
-  background: #EAE3EB;
-}
-
-.timer {
-  color: #536579;
-}
-
-.progress {
-  background: #EAE3EB;
-}
-
-.progress div {
-  background: #A58AAB;
-}
+/* Barre de navigation */
+nav.barre{position:fixed;bottom:0;left:0;right:0;background:var(--blanc);border-top:1px solid var(--ivoire-fonce);display:flex;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom));z-index:20;box-shadow:0 -4px 16px rgba(60,55,80,.06)}
+.nav-btn{flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;color:var(--ardoise-clair);font-size:.7rem;cursor:pointer;border-radius:12px;max-width:110px}
+.nav-btn svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nav-btn.active{color:var(--mauve-fonce);background:var(--mauve-voile);font-weight:600}
 
 /* Accueil */
-#home > .card:first-child {
-  background: linear-gradient(
-    135deg,
-    #EAE3EB,
-    #F4F1ED
-  ) !important;
-}
+.grille{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.tuile{background:var(--blanc);border-radius:16px;padding:16px;box-shadow:var(--ombre);border:1px solid rgba(122,106,136,.08);text-align:left;cursor:pointer;color:var(--texte)}
+.tuile .ico{font-size:1.5rem}
+.tuile b{display:block;margin-top:6px;color:var(--ardoise)}
+.tuile small{color:var(--texte-doux)}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.stat{background:var(--ardoise-voile);border-radius:14px;padding:12px;text-align:center}
+.stat b{display:block;font-size:1.4rem;color:var(--ardoise);font-family:"Noto Serif",Georgia,serif}
+.stat small{color:var(--texte-doux);font-size:.8rem}
+.objectif{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--ivoire-fonce)}
+.objectif:last-child{border-bottom:none}
+.objectif .ico{font-size:1.3rem}
 
+/* Programme d'échauffement */
+.programme{list-style:none;counter-reset:n}
+.programme li{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--ivoire-fonce)}
+.programme li:last-child{border-bottom:none}
+.programme li::before{counter-increment:n;content:counter(n);flex:none;width:28px;height:28px;border-radius:50%;background:var(--mauve-voile);color:var(--mauve-fonce);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700}
+.programme .nom{flex:1}
+.programme .nom small{display:block;color:var(--texte-doux);font-size:.8rem}
+.programme .duree{color:var(--ardoise);font-weight:600;font-size:.9rem}
+.badge{display:inline-block;background:var(--mauve-voile);color:var(--mauve-fonce);border-radius:999px;padding:3px 10px;font-size:.78rem;font-weight:600}
+.badge.ardoise{background:var(--ardoise-voile);color:var(--ardoise)}
+
+/* Lecteur de séance */
+.progression{height:6px;background:var(--mauve-voile);border-radius:3px;overflow:hidden;margin:8px 0 14px}
+.progression div{height:100%;background:linear-gradient(90deg,var(--mauve),var(--rose));width:0;transition:width .4s}
+.entete-exo{display:flex;justify-content:space-between;align-items:center;color:var(--texte-doux);font-size:.88rem}
+.minuteur{position:relative;width:170px;height:170px;margin:12px auto}
+.minuteur svg{transform:rotate(-90deg)}
+.minuteur .temps{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:2.3rem;font-family:"Noto Serif",Georgia,serif;color:var(--ardoise)}
+.minuteur .temps small{font-size:.75rem;font-family:system-ui,sans-serif;color:var(--texte-doux)}
+.controles{display:flex;justify-content:center;align-items:center;gap:14px;margin:12px 0}
+.rond{width:54px;height:54px;border-radius:50%;padding:0;font-size:1.2rem}
+.rond.grand{width:66px;height:66px;font-size:1.5rem}
+.consignes{padding-left:20px}
+.consignes li{margin-bottom:7px}
+.zone-son{background:var(--ardoise-voile);border-radius:14px;padding:14px;margin-top:14px;text-align:center}
+.transpo{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:10px;color:var(--texte-doux);font-size:.9rem}
+.transpo button{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--mauve-clair);background:var(--blanc);font-size:1.1rem;color:var(--mauve-fonce);cursor:pointer}
+.note-actuelle{font-weight:600;color:var(--mauve-fonce)}
+
+/* Exercices */
+.piano{position:relative;height:150px;display:flex;user-select:none;-webkit-user-select:none;margin-top:8px;touch-action:manipulation}
+.blanche{flex:1;background:#fff;border:1px solid #d8d4de;border-radius:0 0 8px 8px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;font-size:.72rem;color:var(--texte-doux);cursor:pointer}
+.noire{position:absolute;top:0;width:8%;height:60%;background:var(--ardoise);border-radius:0 0 6px 6px;z-index:2;cursor:pointer}
+.blanche.joue{background:var(--mauve-voile)}
+.noire.joue{background:var(--mauve)}
+.chrono-affiche{font-family:"Noto Serif",Georgia,serif;font-size:3rem;text-align:center;color:var(--ardoise);margin:6px 0}
+.exo-carte{border-bottom:1px solid var(--ivoire-fonce);padding:12px 0}
+.exo-carte:last-child{border-bottom:none}
+.exo-carte summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:600;color:var(--ardoise)}
+.exo-carte summary::-webkit-details-marker{display:none}
+.exo-carte summary::after{content:"＋";color:var(--mauve)}
+.exo-carte[open] summary::after{content:"－"}
+.exo-carte .consignes{margin-top:8px}
+
+/* Karaoké & formulaires */
+input[type=file]{width:100%;padding:10px;border:1.5px dashed var(--mauve-clair);border-radius:12px;background:var(--mauve-voile);font-size:.9rem}
+audio{width:100%;margin-top:10px}
+input[type=range]{width:100%;accent-color:var(--mauve)}
+textarea{width:100%;min-height:90px;border:1.5px solid var(--mauve-clair);border-radius:12px;padding:10px;font:inherit;background:var(--blanc);resize:vertical}
+label.case{display:flex;align-items:center;gap:8px;font-size:.92rem;margin-top:10px}
+label.case input{accent-color:var(--mauve);width:18px;height:18px}
+.enreg{border-top:1px solid var(--ivoire-fonce);padding-top:10px;margin-top:10px}
+.enreg a{font-size:.88rem;color:var(--mauve-fonce)}
+.point-rec{display:inline-block;width:10px;height:10px;border-radius:50%;background:#c46a7c;margin-right:6px;animation:clignote 1s infinite}
+@keyframes clignote{50%{opacity:.25}}
+.astuces{padding-left:20px;font-size:.93rem}
+.astuces li{margin-bottom:6px}
+
+/* Suivi */
+.barres{display:flex;align-items:flex-end;gap:8px;height:130px;margin-top:10px}
+.barre-j{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-size:.7rem;color:var(--texte-doux);gap:3px}
+.barre-j .b{width:100%;background:linear-gradient(180deg,var(--mauve),var(--ardoise-clair));border-radius:6px 6px 0 0;min-height:3px}
+.histo{list-style:none}
+.histo li{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid var(--ivoire-fonce);align-items:flex-start}
+.histo li:last-child{border-bottom:none}
+.histo .contenu{flex:1;font-size:.93rem}
+.histo .contenu small{display:block;color:var(--texte-doux)}
+.histo .suppr{background:none;border:none;color:var(--ardoise-clair);font-size:1rem;cursor:pointer;padding:4px}
+
+/* Message temporaire */
+.toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ardoise);color:#fff;padding:10px 18px;border-radius:999px;font-size:.9rem;z-index:30;opacity:0;transition:opacity .3s;pointer-events:none;max-width:90%;text-align:center}
+.toast.visible{opacity:1}
 </style>
 </head>
 <body>
-<header>
- <small>TON ESPACE VOCAL PERSONNEL</small>
- <h1>Lovwane Studio ♡</h1>
- <p>Respire. Chante. Progresse.</p>
+
+<header class="entete">
+  <img src="icon.svg" alt="">
+  <div class="marque">Lovwane <span>Studio</span></div>
 </header>
 
 <main>
-<section id="home" class="page active">
- <div class="card" style="background:linear-gradient(135deg,#f7eaf0,#eee5f3)">
-  <span class="tag">TON STUDIO</span>
-  <h2>Bonjour, chanteuse !</h2>
-  <p>Chaque séance est un pas vers une voix plus libre.</p>
-  <button onclick="showPage('session')">Commencer ma séance</button>
- </div>
- <h2>Mon espace</h2>
- <div class="card">
-  <div class="row between"><h3>Mes séances terminées</h3><b id="count">0</b></div>
-  <p class="muted">Tes entraînements enregistrés sur cet appareil.</p>
- </div>
- <div class="card">
-  <h3>Mes priorités vocales</h3>
-  <p>♡ Stabilité et souffle</p>
-  <p>♡ Voix de tête et transitions</p>
-  <p>♡ Voix mixte et aigus</p>
-  <p>♡ Puissance progressive</p>
- </div>
- <div class="card">
-  <h3>Ma prochaine séance</h3>
-  <p>Gravity · Sara Bareilles</p>
-  <p class="muted">Souffle, stabilité et notes tenues.</p>
- </div>
-</section>
 
-<section id="session" class="page">
- <h2>Ma séance guidée</h2>
- <p class="muted">Séance douce de reprise – environ 20 minutes.</p>
- <div id="exercise" class="card">
-  <span class="tag" id="step">EXERCICE 1 / 5</span>
-  <h2 id="exTitle">Réveil vocal doux</h2>
-  <p id="exDesc">Bourdonnements légers et glissés confortables.</p>
-  <label>Durée de pratique (secondes)</label>
-  <input type="number" id="duration" value="180" min="5">
-  <div class="timer" id="clock">03:00</div>
-  <div class="progress"><div id="bar"></div></div>
-  <div class="row" style="justify-content:center;margin-top:15px">
-   <button id="start" onclick="startTimer()">Démarrer</button>
-   <button class="secondary" onclick="pauseTimer()">Pause</button>
-   <button class="secondary" onclick="resetTimer()">Réinitialiser</button>
+<!-- ============ ACCUEIL ============ -->
+<section class="page active" id="accueil">
+  <div class="carte hero">
+    <h1>Bonjour Anne-Sophie !</h1>
+    <div class="date" id="date-jour"></div>
+    <div class="conseil"><b>Conseil du jour · </b><span id="conseil-jour"></span></div>
+    <button class="btn btn-blanc" data-aller="echauffement">🌬️ Commencer mon échauffement</button>
   </div>
-  <button style="width:100%;margin-top:12px" onclick="nextExercise()">Exercice suivant →</button>
- </div>
- <div class="card">
-  <h3>Progression de la séance</h3>
-  <div id="steps"></div>
- </div>
+
+  <div class="carte">
+    <h2>Ma semaine</h2>
+    <div class="stats">
+      <div class="stat"><b id="acc-seances">0</b><small>séances (7 jours)</small></div>
+      <div class="stat"><b id="acc-minutes">0</b><small>minutes chantées</small></div>
+      <div class="stat"><b id="acc-serie">0</b><small>jours d'affilée</small></div>
+      <div class="stat"><b id="acc-tenue">–</b><small>meilleure note tenue</small></div>
+    </div>
+  </div>
+
+  <div class="grille">
+    <button class="tuile" data-aller="exercices"><span class="ico">🎵</span><b>Exercices</b><small>Piano, chrono, bibliothèque</small></button>
+    <button class="tuile" data-aller="karaoke"><span class="ico">🎤</span><b>Karaoké</b><small>Chanter et s'enregistrer</small></button>
+    <button class="tuile" data-aller="suivi"><span class="ico">📖</span><b>Journal</b><small>Noter mon ressenti</small></button>
+    <button class="tuile" data-aller="suivi"><span class="ico">📈</span><b>Progrès</b><small>Mes statistiques</small></button>
+  </div>
+
+  <div class="carte">
+    <h2>Mes objectifs</h2>
+    <div class="objectif"><span class="ico">💫</span><div><b>I Will Always Love You</b><div class="doux">Notes tenues, souffle et puissance maîtrisée.</div></div></div>
+    <div class="objectif"><span class="ico">✨</span><div><b>Chandelier</b><div class="doux">Bascules poitrine / tête et aigus puissants.</div></div></div>
+    <div class="objectif"><span class="ico">🌙</span><div><b>Voix de tête</b><div class="doux">Un son plus net, moins soufflé, et une cassure plus douce.</div></div></div>
+  </div>
 </section>
 
-<section id="exercises" class="page">
- <h2>Mes exercices vocaux</h2>
- <p class="muted">Choisis une compétence à travailler.</p>
- <div id="exerciseList"></div>
- <div class="card">
-  <h3>Ajouter un exemple audio</h3>
-  <p class="muted">Tu peux associer un fichier audio accessible par URL à un exercice.</p>
-  <input id="audioName" placeholder="Nom de l'exercice">
-  <input id="audioUrl" placeholder="URL d'un fichier audio MP3">
-  <button onclick="addAudio()">Ajouter l'audio</button>
-  <div id="audioList"></div>
- </div>
+<!-- ============ ÉCHAUFFEMENT ============ -->
+<section class="page" id="echauffement">
+
+  <!-- Questionnaire -->
+  <div class="vue active" id="ech-config">
+    <h1 class="titre-page">Échauffement vocal</h1>
+    <p class="sous-titre">Choisissez vos préférences, je compose votre séance.</p>
+    <div class="carte">
+      <div class="groupe">
+        <h3>⏱️ Durée</h3>
+        <div class="puces" data-nom="duree">
+          <button class="puce" data-val="5">5 min</button>
+          <button class="puce" data-val="10">10 min</button>
+          <button class="puce" data-val="15">15 min</button>
+          <button class="puce" data-val="20">20 min</button>
+        </div>
+      </div>
+      <div class="groupe">
+        <h3>🎚️ Style</h3>
+        <div class="puces" data-nom="style">
+          <button class="puce" data-val="doux">Doux</button>
+          <button class="puce" data-val="progressif">Progressif</button>
+          <button class="puce" data-val="energique">Énergique</button>
+        </div>
+      </div>
+      <div class="groupe">
+        <h3>💗 État de ma voix aujourd'hui</h3>
+        <div class="puces" data-nom="etat">
+          <button class="puce" data-val="fatiguee">Fatiguée</button>
+          <button class="puce" data-val="normale">Normale</button>
+          <button class="puce" data-val="enforme">En forme</button>
+          <button class="puce" data-val="enrouee">Enrouée</button>
+        </div>
+        <div class="alerte cache" id="alerte-enrouee">Voix enrouée : la séance sera très douce, sans aigus ni effort. Arrêtez au moindre inconfort. Si l'enrouement dure plus de deux semaines, consultez un médecin ORL.</div>
+      </div>
+      <div class="groupe">
+        <h3>🎹 Accompagnement</h3>
+        <div class="puces" data-nom="mode">
+          <button class="puce" data-val="ecrit">Instructions écrites</button>
+          <button class="puce" data-val="demo">Démonstrations sonores</button>
+          <button class="puce" data-val="piano">Accompagnement au piano</button>
+        </div>
+      </div>
+      <div class="groupe">
+        <h3>🎯 Objectif</h3>
+        <div class="puces" data-nom="objectif">
+          <button class="puce" data-val="complet">Échauffement complet</button>
+          <button class="puce" data-val="aigus">Aigus</button>
+          <button class="puce" data-val="tete">Voix de tête</button>
+          <button class="puce" data-val="transitions">Transitions</button>
+          <button class="puce" data-val="souffle">Souffle</button>
+        </div>
+      </div>
+      <button class="btn btn-principal btn-large" id="btn-generer">✨ Créer mon échauffement</button>
+    </div>
+  </div>
+
+  <!-- Aperçu du programme -->
+  <div class="vue" id="ech-apercu">
+    <h1 class="titre-page" id="apercu-titre">Votre échauffement</h1>
+    <p class="sous-titre" id="apercu-resume"></p>
+    <div class="alerte cache" id="apercu-alerte"></div>
+    <div class="carte">
+      <ol class="programme" id="apercu-liste"></ol>
+    </div>
+    <button class="btn btn-principal btn-large" id="btn-commencer">▶ Commencer la séance</button>
+    <div class="rangee">
+      <button class="btn btn-secondaire" id="btn-autre">🔄 Une autre version</button>
+      <button class="btn btn-discret" id="btn-modifier">Modifier mes choix</button>
+    </div>
+  </div>
+
+  <!-- Lecteur -->
+  <div class="vue" id="ech-lecture">
+    <div class="entete-exo"><span id="lec-numero">Exercice 1 / 1</span><span id="lec-total"></span></div>
+    <div class="progression"><div id="lec-barre"></div></div>
+    <div class="carte">
+      <span class="badge" id="lec-cat"></span>
+      <h2 style="margin-top:8px;font-size:1.3rem" id="lec-nom"></h2>
+      <div class="minuteur">
+        <svg width="170" height="170" viewBox="0 0 170 170">
+          <circle cx="85" cy="85" r="74" fill="none" stroke="#eee9f3" stroke-width="10"/>
+          <circle id="lec-cercle" cx="85" cy="85" r="74" fill="none" stroke="#7a6a88" stroke-width="10" stroke-linecap="round" stroke-dasharray="464.96" stroke-dashoffset="0"/>
+        </svg>
+        <div class="temps"><span id="lec-temps">0:00</span><small id="lec-etat">en cours</small></div>
+      </div>
+      <div class="controles">
+        <button class="btn btn-secondaire rond" id="lec-prec" aria-label="Précédent">⏮</button>
+        <button class="btn btn-principal rond grand" id="lec-pause" aria-label="Pause">⏸</button>
+        <button class="btn btn-secondaire rond" id="lec-suiv" aria-label="Suivant">⏭</button>
+      </div>
+      <ul class="consignes" id="lec-consignes"></ul>
+      <div class="zone-son" id="lec-son"></div>
+    </div>
+    <button class="btn btn-discret btn-large" id="lec-arreter">Arrêter la séance</button>
+  </div>
+
+  <!-- Fin -->
+  <div class="vue" id="ech-fin">
+    <div class="carte hero" style="text-align:center">
+      <div style="font-size:2.5rem">🌸</div>
+      <h1>Bravo Anne-Sophie !</h1>
+      <p class="date" id="fin-resume" style="text-transform:none"></p>
+      <div class="conseil">Buvez un peu d'eau, puis notez votre ressenti : c'est ce qui rend vos progrès visibles.</div>
+    </div>
+    <button class="btn btn-principal btn-large" data-aller="suivi">📖 Écrire dans mon journal</button>
+    <div class="rangee"><button class="btn btn-secondaire" id="fin-nouveau">Nouvel échauffement</button></div>
+  </div>
 </section>
 
-<section id="karaoke" class="page">
- <h2>Mon studio karaoké ♫</h2>
- <p class="muted">Ajoute une vidéo de karaoké YouTube.</p>
- <div class="card">
-  <label>Nom de la chanson</label>
-  <input id="songName" placeholder="Ex. Chandelier">
-  <label>Artiste</label>
-  <input id="artist" placeholder="Ex. Sia">
-  <label>Lien YouTube</label>
-  <input id="youtube" placeholder="https://www.youtube.com/watch?v=...">
-  <label>Mes paroles ou notes personnelles</label>
-  <textarea id="lyrics" placeholder="Ajoute tes notes de travail ou les paroles que tu es autorisée à utiliser..."></textarea>
-  <button onclick="addSong()">Ajouter à ma bibliothèque</button>
- </div>
- <div id="player" class="card">
-  <p class="muted">Sélectionne une chanson pour commencer.</p>
- </div>
- <h3>Ma bibliothèque</h3>
- <div id="songs"></div>
+<!-- ============ EXERCICES ============ -->
+<section class="page" id="exercices">
+  <h1 class="titre-page">Exercices</h1>
+  <p class="sous-titre">Votre boîte à outils vocale.</p>
+
+  <div class="carte">
+    <h2>🎹 Donner la note</h2>
+    <p class="doux">Touchez une touche pour entendre la note.</p>
+    <div class="piano" id="piano"></div>
+  </div>
+
+  <div class="carte">
+    <h2>⏱️ Chrono des notes tenues</h2>
+    <p class="doux">Inspirez, démarrez, tenez une note confortable, arrêtez quand le son faiblit.</p>
+    <div class="chrono-affiche" id="chrono-affiche">0,0 s</div>
+    <button class="btn btn-principal btn-large" id="chrono-btn">Démarrer</button>
+    <p class="doux" style="margin-top:12px" id="chrono-infos"></p>
+  </div>
+
+  <div class="carte">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+      <h2 style="margin:0">🎧 Bibliothèque sonore</h2>
+      <button class="btn btn-discret btn-petit" id="biblio-stop">■ Stop</button>
+    </div>
+    <div class="puces" id="biblio-filtres" style="margin:12px 0"></div>
+    <div id="biblio-liste"></div>
+  </div>
 </section>
 
-<section id="progress" class="page">
- <h2>Mon évolution ♡</h2>
- <div class="card">
-  <h3>Mes séances terminées</h3>
-  <div class="timer" id="total">0</div>
-  <p class="muted" style="text-align:center">Séances enregistrées</p>
- </div>
- <div class="card">
-  <h3>Mon journal vocal</h3>
-  <textarea id="journal" placeholder="Comment était ma voix aujourd'hui ? Mes aigus ? Mon souffle ?"></textarea>
-  <button onclick="saveJournal()">Enregistrer mes notes</button>
-  <p id="saved" class="muted"></p>
- </div>
- <div class="card">
-  <h3>Historique</h3>
-  <div id="history"></div>
- </div>
+<!-- ============ KARAOKÉ ============ -->
+<section class="page" id="karaoke">
+  <h1 class="titre-page">Studio karaoké</h1>
+  <p class="sous-titre">Chantez sur votre musique et écoutez-vous.</p>
+
+  <div class="carte">
+    <h2>🎶 Ma musique</h2>
+    <p class="doux">Choisissez un fichier audio de votre téléphone (version karaoké ou originale).</p>
+    <input type="file" id="k-fichier" accept="audio/*" style="margin-top:10px">
+    <audio id="k-audio" controls class="cache"></audio>
+    <div id="k-vitesse-zone" class="cache" style="margin-top:12px">
+      <div class="doux">Vitesse : <b id="k-vitesse-val">100 %</b> (pour apprendre un passage)</div>
+      <input type="range" id="k-vitesse" min="70" max="100" step="5" value="100">
+    </div>
+  </div>
+
+  <div class="carte">
+    <h2>🎙️ M'enregistrer</h2>
+    <p class="doux">Avec des écouteurs, seule votre voix est enregistrée. Sans écouteurs, la musique s'entend aussi. Les enregistrements restent disponibles tant que l'application est ouverte : téléchargez ceux que vous voulez garder.</p>
+    <label class="case"><input type="checkbox" id="k-avec" checked> Lancer la musique en même temps</label>
+    <button class="btn btn-ardoise btn-large" id="k-rec" style="margin-top:12px">● Démarrer l'enregistrement</button>
+    <div id="k-rec-etat" class="doux" style="margin-top:8px"></div>
+    <div id="k-enregs"></div>
+  </div>
+
+  <div class="carte">
+    <h2>💫 I Will Always Love You</h2>
+    <ul class="astuces">
+      <li>L'introduction se chante doucement et sans accompagnement : travaillez la stabilité avec la « messa di voce ».</li>
+      <li>Les phrases sont longues : préparez-les avec la respiration 4 – 4 – 6 et le « sss » régulier.</li>
+      <li>Le dernier refrain monte d'un ton et devient puissant : chantez-le seulement après un échauffement complet, d'abord à mi-voix.</li>
+      <li>Commencez avec une version karaoké plus grave (−2 ou −3 demi-tons), puis remontez peu à peu.</li>
+    </ul>
+  </div>
+  <div class="carte">
+    <h2>✨ Chandelier</h2>
+    <ul class="astuces">
+      <li>Le refrain alterne voix de poitrine puissante et bascules rapides vers la voix de tête : c'est précisément votre zone de cassure.</li>
+      <li>Les exercices « Octave sur gué » et « Sirène sur ng » rendent ces bascules volontaires et contrôlées.</li>
+      <li>Ce refrain fatigue vite : limitez-vous à deux ou trois passages par séance.</li>
+      <li>Hydratez-vous et arrêtez au moindre enrouement.</li>
+    </ul>
+  </div>
 </section>
+
+<!-- ============ SUIVI ============ -->
+<section class="page" id="suivi">
+  <h1 class="titre-page">Journal &amp; progrès</h1>
+  <p class="sous-titre">Votre voix, jour après jour.</p>
+
+  <div class="carte">
+    <div class="stats">
+      <div class="stat"><b id="sv-seances">0</b><small>séances au total</small></div>
+      <div class="stat"><b id="sv-minutes">0</b><small>minutes au total</small></div>
+      <div class="stat"><b id="sv-serie">0</b><small>jours d'affilée</small></div>
+      <div class="stat"><b id="sv-tenue">–</b><small>meilleure note tenue</small></div>
+    </div>
+  </div>
+
+  <div class="carte">
+    <h2>Mes 7 derniers jours</h2>
+    <div class="barres" id="sv-barres"></div>
+  </div>
+
+  <div class="carte">
+    <h2>📖 Écrire dans mon journal</h2>
+    <div class="groupe" style="margin-top:10px">
+      <h3>Comment était ma voix ?</h3>
+      <div class="puces" id="sv-ressenti">
+        <button class="puce" data-val="1">😣 Difficile</button>
+        <button class="puce" data-val="2">🙁 Moyenne</button>
+        <button class="puce" data-val="3">😐 Correcte</button>
+        <button class="puce" data-val="4">🙂 Bonne</button>
+        <button class="puce" data-val="5">😍 Excellente</button>
+      </div>
+    </div>
+    <textarea id="sv-note" placeholder="Ce que j'ai travaillé, ce qui était facile ou difficile…"></textarea>
+    <button class="btn btn-principal btn-large" id="sv-ajouter" style="margin-top:12px">Ajouter au journal</button>
+  </div>
+
+  <div class="carte">
+    <h2>Historique</h2>
+    <ul class="histo" id="sv-histo"></ul>
+  </div>
+</section>
+
 </main>
 
-<nav>
- <button class="active" data-page="home" onclick="showPage('home')">⌂<br>Accueil</button>
- <button data-page="session" onclick="showPage('session')">◷<br>Séance</button>
- <button data-page="exercises" onclick="showPage('exercises')">♫<br>Exercices</button>
- <button data-page="karaoke" onclick="showPage('karaoke')">♪<br>Karaoké</button>
- <button data-page="progress" onclick="showPage('progress')">♡<br>Progrès</button>
+<nav class="barre">
+  <button class="nav-btn active" data-aller="accueil"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Accueil</button>
+  <button class="nav-btn" data-aller="echauffement"><svg viewBox="0 0 24 24"><path d="M3 8h11a3 3 0 1 0-3-3M3 12h15a3 3 0 1 1-3 3M3 16h7"/></svg>Échauffement</button>
+  <button class="nav-btn" data-aller="exercices"><svg viewBox="0 0 24 24"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>Exercices</button>
+  <button class="nav-btn" data-aller="karaoke"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4M8 22h8"/></svg>Karaoké</button>
+  <button class="nav-btn" data-aller="suivi"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>Suivi</button>
 </nav>
 
+<div class="toast" id="toast"></div>
+
 <script>
-const $ = id => document.getElementById(id);
-const get = (key, fallback) => {
- try { return JSON.parse(localStorage.getItem(key)) ?? fallback }
- catch { return fallback }
-};
-const put = (key,value) => localStorage.setItem(key,JSON.stringify(value));
+/* ---------- Outils ---------- */
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const echapper = t => String(t).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad = n => String(n).padStart(2,'0');
+const jourCle = d => { d = new Date(d); return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); };
+const mmss = s => Math.floor(s/60)+':'+pad(Math.max(0,s%60));
+let toastTimer = null;
+function toast(txt){ const t=$('#toast'); t.textContent=txt; t.classList.add('visible'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('visible'),2600); }
 
-const exercises = [
- ["Réveil vocal doux","Bourdonnements et glissés confortables.",180],
- ["Souffle et phrasé","Chante doucement une phrase sans pousser.",180],
- ["Stabilité","Travaille quelques notes confortables et régulières.",180],
- ["Transitions","Chante une mélodie douce en explorant les registres.",180],
- ["Chanson plaisir","Gravity ou une chanson de ton choix.",360]
+/* ---------- Sauvegarde ---------- */
+const CLE = 'lovwane-studio-v2';
+let donnees = { seances:[], journal:[], tenues:[], prefs:null };
+function charger(){ try{ const t=localStorage.getItem(CLE); if(t){ const d=JSON.parse(t); donnees=Object.assign(donnees,d); } }catch(e){} }
+function sauver(){ try{ localStorage.setItem(CLE, JSON.stringify(donnees)); }catch(e){} }
+charger();
+
+/* ---------- Navigation ---------- */
+const PAGES = ['accueil','echauffement','exercices','karaoke','suivi'];
+function afficher(id){
+  if(!PAGES.includes(id)) id='accueil';
+  $$('.page').forEach(p => p.classList.toggle('active', p.id===id));
+  $$('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.aller===id));
+  window.scrollTo(0,0);
+  if(id==='accueil') rendreAccueil();
+  if(id==='suivi') rendreSuivi();
+}
+function aller(id){ if(location.hash !== '#'+id) location.hash = id; else afficher(id); }
+window.addEventListener('hashchange', () => afficher(location.hash.slice(1)));
+document.addEventListener('click', e => { const b=e.target.closest('[data-aller]'); if(b) aller(b.dataset.aller); });
+
+/* ---------- Audio ---------- */
+let ctx=null, master=null, sons=[], boucleTimer=null, boucleActive=false;
+function audio(){
+  if(!ctx){
+    const AC = window.AudioContext || window.webkitAudioContext;
+    ctx = new AC();
+    const comp = ctx.createDynamicsCompressor();
+    master = ctx.createGain(); master.gain.value = 0.8;
+    master.connect(comp); comp.connect(ctx.destination);
+  }
+  if(ctx.state==='suspended') ctx.resume();
+  return ctx;
+}
+const freq = m => 440*Math.pow(2,(m-69)/12);
+const NOMS = ['Do','Do♯','Ré','Mi♭','Mi','Fa','Fa♯','Sol','La♭','La','Si♭','Si'];
+const nomNote = m => NOMS[((m%12)+12)%12] + (Math.floor(m/12)-1);
+
+function note(m, t, d, inst){
+  const c = audio(), g = c.createGain(), f = freq(m);
+  g.connect(master);
+  if(inst==='piano'){
+    const o1=c.createOscillator(); o1.type='triangle'; o1.frequency.value=f;
+    const o2=c.createOscillator(); o2.type='sine'; o2.frequency.value=f*2;
+    const g2=c.createGain(); g2.gain.value=0.25;
+    o1.connect(g); o2.connect(g2); g2.connect(g);
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(0.35,t+0.015);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+d+0.8);
+    [o1,o2].forEach(o=>{ o.start(t); o.stop(t+d+0.9); sons.push(o); });
+  } else {
+    const o=c.createOscillator(); o.type='sine'; o.frequency.value=f;
+    const lfo=c.createOscillator(); lfo.frequency.value=5.5;
+    const lg=c.createGain(); lg.gain.value=f*0.006;
+    lfo.connect(lg); lg.connect(o.frequency); o.connect(g);
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.linearRampToValueAtTime(0.28,t+0.08);
+    g.gain.setValueAtTime(0.28,t+Math.max(0.09,d-0.08));
+    g.gain.linearRampToValueAtTime(0.0001,t+d);
+    [o,lfo].forEach(x=>{ x.start(t); x.stop(t+d+0.05); sons.push(x); });
+  }
+}
+function glisse(points, t, d){
+  const c=audio(), o=c.createOscillator(), g=c.createGain();
+  o.type='sine'; o.connect(g); g.connect(master);
+  const seg = d/(points.length-1);
+  o.frequency.setValueAtTime(freq(points[0]),t);
+  points.slice(1).forEach((p,i)=>o.frequency.exponentialRampToValueAtTime(freq(p),t+seg*(i+1)));
+  g.gain.setValueAtTime(0.0001,t);
+  g.gain.linearRampToValueAtTime(0.25,t+0.15);
+  g.gain.setValueAtTime(0.25,t+d-0.2);
+  g.gain.linearRampToValueAtTime(0.0001,t+d);
+  o.start(t); o.stop(t+d+0.05); sons.push(o);
+}
+function stopSons(){
+  sons.forEach(s=>{ try{ s.stop(); }catch(e){} });
+  sons=[]; clearTimeout(boucleTimer); boucleActive=false;
+}
+// Joue un motif ; renvoie sa durée en secondes
+function jouerMotif(motif, base, inst, debut){
+  const c=audio(); const t=(debut || c.currentTime) + 0.05;
+  if(motif.type==='glisse'){
+    if(inst==='piano'){ note(base+motif.notes[0],t,0.5,'piano'); glisse(motif.notes.map(n=>n+base),t+0.6,motif.duree); return motif.duree+0.7; }
+    glisse(motif.notes.map(n=>n+base),t,motif.duree); return motif.duree+0.1;
+  }
+  if(motif.type==='tenue'){ note(base+motif.notes[0],t,motif.duree,inst); return motif.duree; }
+  let tt=t; motif.notes.forEach(n=>{ note(base+n,tt,motif.dn*0.95,inst); tt+=motif.dn; });
+  return tt-t;
+}
+function accord(base, t){ [0,4,7].forEach(n=>note(base+n,t,0.6,'piano')); }
+// Accompagnement : le motif monte demi-ton par demi-ton puis redescend
+function accompagnement(motif, base, montee, surPas){
+  stopSons(); boucleActive=true;
+  const pas=[]; for(let i=0;i<=montee;i++) pas.push(i); for(let i=montee-1;i>=0;i--) pas.push(i);
+  let k=0;
+  const suivant=()=>{
+    if(!boucleActive || k>=pas.length){ boucleActive=false; surPas && surPas(null); return; }
+    const b=base+pas[k]; surPas && surPas(b);
+    const t=audio().currentTime+0.05;
+    accord(b,t);
+    const d=jouerMotif(motif,b,'piano',t+0.8);
+    k++; boucleTimer=setTimeout(suivant,(0.8+d+1)*1000);
+  };
+  suivant();
+}
+function carillon(){ if(!ctx) return; const t=ctx.currentTime+0.05; note(84,t,0.3,'piano'); note(88,t+0.18,0.5,'piano'); }
+
+/* ---------- Bibliothèque d'exercices ---------- */
+const CATS = { corps:'Détente', souffle:'Souffle', sovt:'Échauffement doux', tete:'Voix de tête', transition:'Transitions', aigus:'Aigus', tenue:'Notes tenues', energie:'Énergie', retour:'Retour au calme' };
+const EXOS = [
+ {id:'detente',cat:'corps',nom:'Détente du corps',intens:1,duree:60,enroue:true,decal:0,motif:null,consignes:[
+  "Roulez doucement les épaules vers l'arrière, 5 fois.",
+  "Inclinez la tête à droite puis à gauche, sans forcer.",
+  "Massez les joues et la mâchoire du bout des doigts, bouche entrouverte.",
+  "Bâillez librement pour ouvrir le fond de la gorge."]},
+ {id:'resp446',cat:'souffle',nom:'Respiration 4 – 4 – 6',intens:1,duree:90,enroue:true,decal:0,motif:null,consignes:[
+  "Posez les mains sur le bas des côtes.",
+  "Inspirez par le nez sur 4 temps : les côtes s'ouvrent sur les côtés, les épaules restent basses.",
+  "Gardez cette ouverture 4 temps, sans bloquer la gorge.",
+  "Expirez sur un « sss » pendant 6 temps, puis allongez à 8, 10, 12."]},
+ {id:'sss',cat:'souffle',nom:'Le « sss » régulier',intens:1,duree:60,enroue:true,decal:0,motif:null,consignes:[
+  "Inspirez calmement, puis soufflez sur un « sss » le plus régulier possible.",
+  "Le son ne grossit pas et ne faiblit pas : imaginez un fil bien tendu.",
+  "Visez 20 secondes, puis un peu plus à chaque séance."]},
+ {id:'pulsations',cat:'souffle',nom:'Pulsations « f-f-f »',intens:2,duree:60,enroue:false,decal:0,motif:null,consignes:[
+  "Soufflez de petits « f » courts et toniques.",
+  "Le ventre rebondit à chaque impulsion, la gorge reste détendue.",
+  "4 séries de 8, avec une petite inspiration entre chaque série."]},
+ {id:'mmm',cat:'sovt',nom:'Fredonnement « mmm »',intens:1,duree:75,enroue:true,decal:0,motif:{type:'notes',notes:[0,2,4,2,0],dn:0.5},consignes:[
+  "Lèvres fermées, dents légèrement écartées, langue détendue.",
+  "Cherchez une vibration dans les lèvres et le nez.",
+  "Suivez le motif sans pousser : le son reste léger et agréable."]},
+ {id:'liptrill',cat:'sovt',nom:'Bulles des lèvres (lip trills)',intens:1,duree:90,enroue:true,decal:0,motif:{type:'notes',notes:[0,2,4,5,7,5,4,2,0],dn:0.35},consignes:[
+  "Faites vibrer les lèvres comme un « brrr » de bébé, en ajoutant du son.",
+  "Si les lèvres s'arrêtent, soutenez légèrement les joues avec les index.",
+  "C'est le souffle continu qui fait vibrer les lèvres, pas la gorge."]},
+ {id:'paille',cat:'sovt',nom:'Paille et sirène',intens:1,duree:90,enroue:true,decal:0,motif:{type:'glisse',notes:[0,7,0],duree:3},consignes:[
+  "Chantez dans une paille, ou lèvres en « ou » très serré.",
+  "Faites une sirène douce du grave vers l'aigu, puis retour.",
+  "Gardez le même confort tout du long : idéal pour lisser les transitions."]},
+ {id:'hibou',cat:'tete',nom:'Le hibou « hou-hou »',intens:1,duree:75,enroue:false,decal:0,motif:{type:'notes',notes:[12,7,4,0],dn:0.55},consignes:[
+  "Sur un « hou » léger, comme un hibou, partez de la note aiguë et descendez.",
+  "La voix peut être un peu soufflée au début, c'est normal.",
+  "Petit à petit, cherchez un son plus net en gardant la même facilité."]},
+ {id:'sirenetete',cat:'tete',nom:'Sirène en voix de tête « ou »',intens:2,duree:75,enroue:false,decal:3,motif:{type:'glisse',notes:[0,9,0],duree:3.5},consignes:[
+  "Commencez dans le médium sur un « ou » léger.",
+  "Montez en douceur vers l'aigu, sans à-coup.",
+  "Pensez « vers l'avant et vers le haut », mâchoire relâchée."]},
+ {id:'ngah',cat:'tete',nom:'« Ng » puis « ah »',intens:2,duree:75,enroue:false,decal:2,motif:{type:'notes',notes:[0,4,7,4,0],dn:0.5},consignes:[
+  "Chantez d'abord sur « ng » (comme la fin de « camping »), le son dans le nez.",
+  "Sur la même note, ouvrez doucement vers « ah » en gardant la résonance haute.",
+  "Cet exercice aide à rendre la voix de tête moins soufflée."]},
+ {id:'ngsirene',cat:'transition',nom:'Sirène sur « ng » à travers la cassure',intens:2,duree:90,enroue:false,decal:0,motif:{type:'glisse',notes:[0,12,0],duree:4},consignes:[
+  "Sur « ng », faites une sirène lente qui traverse votre zone de cassure.",
+  "Diminuez un peu le volume en approchant de la cassure : ne poussez pas.",
+  "Le but n'est pas de supprimer la cassure en un jour, mais de l'adoucir."]},
+ {id:'gue',cat:'transition',nom:'Octave sur « gué »',intens:2,duree:75,enroue:false,decal:0,motif:{type:'notes',notes:[0,12,7,4,0],dn:0.5},consignes:[
+  "Sur « gué » (comme « guépard »), sautez à l'octave puis redescendez.",
+  "La consonne « g » aide les cordes vocales à bien se fermer.",
+  "Gardez la même voyelle en haut et en bas."]},
+ {id:'nie',cat:'transition',nom:'Gamme sur « nié »',intens:2,duree:75,enroue:false,decal:0,motif:{type:'notes',notes:[0,2,4,5,7,9,11,12,11,9,7,5,4,2,0],dn:0.28},consignes:[
+  "Sur « nié », chantez la gamme montante puis descendante.",
+  "Le « n » aide à garder une couleur homogène sur toute la gamme.",
+  "Restez à un volume moyen, surtout au passage."]},
+ {id:'arpege',cat:'aigus',nom:'Arpège « naï »',intens:2,duree:75,enroue:false,decal:2,motif:{type:'notes',notes:[0,4,7,12,7,4,0],dn:0.4},consignes:[
+  "Sur « naï », chantez l'arpège.",
+  "Sur la note du haut, ouvrez un peu plus la bouche, menton détendu.",
+  "Pensez la note aiguë comme un saut léger, pas comme un effort."]},
+ {id:'mum',cat:'aigus',nom:'« Mum » tonique',intens:3,duree:60,enroue:false,decal:4,motif:{type:'notes',notes:[0,4,7,4,0],dn:0.35},consignes:[
+  "Sur « mum », chantez de façon tonique et brillante, comme un appel joyeux.",
+  "Le son est « mixé » : un peu de poitrine, un peu de tête.",
+  "Arrêtez dès que vous sentez une tension dans la gorge."]},
+ {id:'messa',cat:'tenue',nom:'Note tenue « messa di voce »',intens:2,duree:75,enroue:false,decal:4,motif:{type:'tenue',notes:[0],duree:6},consignes:[
+  "Sur « a » ou « o », tenez la note donnée.",
+  "Commencez doucement, faites un léger crescendo, puis revenez au doux.",
+  "Inspiration calme, son stable, sans trembler."]},
+ {id:'voyelles',cat:'tenue',nom:'Note tenue sur les voyelles',intens:2,duree:60,enroue:false,decal:2,motif:{type:'tenue',notes:[0],duree:6},consignes:[
+  "Tenez une note confortable en passant lentement de « i » à « é », « a », « o », « ou ».",
+  "La hauteur et le volume restent identiques.",
+  "Idéal pour préparer les longues notes des ballades."]},
+ {id:'staccato',cat:'energie',nom:'Staccato « ha-ha-ha »',intens:3,duree:60,enroue:false,decal:0,motif:{type:'notes',notes:[0,4,7,12,7,4,0],dn:0.25},consignes:[
+  "Petits « ha » détachés et toniques, impulsés par le ventre.",
+  "La gorge reste ouverte, comme un rire.",
+  "Réveille le soutien et l'énergie avant de chanter."]},
+ {id:'descente',cat:'retour',nom:'Glissandos descendants',intens:1,duree:45,enroue:true,decal:0,motif:{type:'glisse',notes:[9,0],duree:2.5},consignes:[
+  "Sur un « ou » doux, glissez de l'aigu vers le grave, comme un soupir.",
+  "Relâchez la mâchoire et les épaules."]},
+ {id:'mmfin',cat:'retour',nom:'Fredonnement de fin',intens:1,duree:45,enroue:true,decal:0,motif:{type:'notes',notes:[4,2,0],dn:0.7},consignes:[
+  "Terminez par un fredonnement très doux.",
+  "Buvez un verre d'eau à température ambiante.",
+  "Notez votre ressenti dans le journal vocal."]}
 ];
-let index=0,remaining=180,interval=null,running=false;
 
-function showPage(id) {
- document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
- $(id).classList.add('active');
- document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));
- if(id==='progress') renderHistory();
- if(id==='karaoke') renderSongs();
- if(id==='exercises') renderExercises();
+/* ---------- Échauffement : préférences ---------- */
+const BASE = { enforme:60, normale:58, fatiguee:57, enrouee:55 };
+const MONTEE = { enforme:5, normale:4, fatiguee:3, enrouee:2 };
+const POOLS = {
+  complet:['tete','transition','aigus','tenue'],
+  aigus:['transition','aigus','aigus','tenue'],
+  tete:['tete','tete','transition','tenue'],
+  transitions:['transition','transition','tete','tenue'],
+  souffle:['souffle','tenue','tenue','sovt']
+};
+const LIBELLES = {
+  style:{doux:'doux',progressif:'progressif',energique:'énergique'},
+  etat:{fatiguee:'voix fatiguée',normale:'voix normale',enforme:'voix en forme',enrouee:'voix enrouée'},
+  mode:{ecrit:'instructions écrites',demo:'démonstrations sonores',piano:'accompagnement au piano'},
+  objectif:{complet:'échauffement complet',aigus:'aigus',tete:'voix de tête',transitions:'transitions',souffle:'souffle'}
+};
+let prefs = Object.assign({duree:10,style:'progressif',etat:'normale',mode:'piano',objectif:'complet'}, donnees.prefs || {});
+
+function majPuces(){
+  $$('#ech-config .puces').forEach(gr=>{
+    const nom=gr.dataset.nom;
+    gr.querySelectorAll('.puce').forEach(p=>p.classList.toggle('active', String(prefs[nom])===p.dataset.val));
+  });
+  $('#alerte-enrouee').classList.toggle('cache', prefs.etat!=='enrouee');
 }
-function renderStep(){
- const e=exercises[index];
- $('step').textContent=`EXERCICE ${index+1} / ${exercises.length}`;
- $('exTitle').textContent=e[0];$('exDesc').textContent=e[1];
- $('duration').value=e[2];remaining=e[2];renderClock();
- $('steps').innerHTML=exercises.map((x,i)=>`<div class="songline">${i===index?'●':'○'} ${x[0]}</div>`).join('');
-}
-function renderClock(){
- $('clock').textContent=String(Math.floor(remaining/60)).padStart(2,'0')+':'+String(remaining%60).padStart(2,'0');
- $('bar').style.width=(100*(1-remaining/Math.max(1,Number($('duration').value))))+'%';
-}
-$('duration').addEventListener('change',()=>{
- if(!running){remaining=Math.max(5,Number($('duration').value)||5);renderClock()}
+$$('#ech-config .puces').forEach(gr=>{
+  gr.addEventListener('click', e=>{
+    const p=e.target.closest('.puce'); if(!p) return;
+    const nom=gr.dataset.nom;
+    prefs[nom] = nom==='duree' ? Number(p.dataset.val) : p.dataset.val;
+    majPuces();
+  });
 });
-function startTimer(){
- if(running)return;
- running=true;$('start').textContent='En cours…';
- interval=setInterval(()=>{
-  remaining--;renderClock();
-  if(remaining<=0){
-   pauseTimer();$('start').textContent='Terminé !';
-   if(navigator.vibrate)navigator.vibrate([150,80,150]);
+
+function genererProgramme(p){
+  const enroue = p.etat==='enrouee';
+  const maxInt = enroue ? 1 : ((p.etat==='fatiguee' || p.style==='doux') ? 2 : 3);
+  const nb = {5:5,10:7,15:9,20:11}[p.duree] || 7;
+  const ok = e => e.intens<=maxInt && (!enroue || e.enroue);
+  const pris = new Set();
+  const prendre = cat => {
+    const c = EXOS.filter(e=>e.cat===cat && ok(e) && !pris.has(e.id));
+    if(!c.length) return null;
+    const e = c[Math.floor(Math.random()*c.length)]; pris.add(e.id); return e;
+  };
+  const debut = [prendre('corps'), prendre('souffle'), prendre('sovt')].filter(Boolean);
+  let pool = enroue ? ['sovt','souffle','sovt'] : POOLS[p.objectif].slice();
+  if(p.style==='energique' && !enroue && p.etat!=='fatiguee') pool.unshift('energie');
+  const remplissage = enroue ? ['sovt','souffle'] : ['sovt','tete','transition','tenue','souffle','aigus'];
+  const cats = [...pool, ...pool, ...remplissage, ...remplissage];
+  const places = nb - debut.length - 1;
+  const milieu = [];
+  for(const cat of cats){ if(milieu.length>=places) break; const e=prendre(cat); if(e) milieu.push(e); }
+  if(p.style!=='energique') milieu.sort((a,b)=>a.intens-b.intens);
+  const fin = prendre('retour');
+  const liste = [...debut, ...milieu, fin].filter(Boolean);
+  const total = p.duree*60;
+  const somme = liste.reduce((s,e)=>s+e.duree,0);
+  const prog = liste.map(e=>({...e, sec:Math.max(30, Math.round(e.duree*total/somme/15)*15)}));
+  let ecart = total - prog.reduce((s,e)=>s+e.sec,0);
+  const tri = prog.map((e,i)=>i).sort((a,b)=>prog[b].sec-prog[a].sec);
+  let k=0;
+  while(ecart!==0 && k<100){
+    const i = tri[k%tri.length]; const pasT = ecart>0 ? 15 : -15;
+    if(prog[i].sec+pasT >= 30){ prog[i].sec += pasT; ecart -= pasT; }
+    k++;
   }
- },1000);
+  return prog;
 }
-function pauseTimer(){
- clearInterval(interval);interval=null;running=false;
- $('start').textContent='Reprendre';
+
+let programme = [];
+function montrerVue(id){ $$('#echauffement .vue').forEach(v=>v.classList.toggle('active', v.id===id)); window.scrollTo(0,0); }
+function creerEtAfficher(){
+  donnees.prefs = prefs; sauver();
+  programme = genererProgramme(prefs);
+  $('#apercu-titre').textContent = 'Votre échauffement de '+prefs.duree+' min';
+  $('#apercu-resume').textContent = 'Style '+LIBELLES.style[prefs.style]+' · '+LIBELLES.etat[prefs.etat]+' · '+LIBELLES.objectif[prefs.objectif]+' · '+LIBELLES.mode[prefs.mode]+'.';
+  const al = $('#apercu-alerte');
+  if(prefs.etat==='enrouee'){ al.textContent="Séance spéciale voix enrouée : uniquement des exercices doux, à faible volume. Arrêtez si la gorge gratte ou fait mal."; al.classList.remove('cache'); }
+  else if(prefs.etat==='fatiguee'){ al.textContent="Voix fatiguée : pas d'exercices intenses aujourd'hui, et une tessiture un peu plus basse."; al.classList.remove('cache'); }
+  else al.classList.add('cache');
+  $('#apercu-liste').innerHTML = programme.map(e=>
+    '<li><div class="nom">'+echapper(e.nom)+'<small>'+CATS[e.cat]+'</small></div><span class="duree">'+mmss(e.sec)+'</span></li>').join('');
+  montrerVue('ech-apercu');
 }
-function resetTimer(){pauseTimer();remaining=Math.max(5,Number($('duration').value)||5);renderClock()}
-function nextExercise(){
- pauseTimer();
- if(index===exercises.length-1){
-  index=0;
-  let h=get('history',[]);
-  h.unshift({date:new Date().toLocaleString('fr-CA'),name:'Séance guidée'});
-  put('history',h);
-  alert('Bravo ! Séance terminée. Prends un moment pour récupérer.');
- }else index++;
- renderStep();
+$('#btn-generer').addEventListener('click', creerEtAfficher);
+$('#btn-autre').addEventListener('click', creerEtAfficher);
+$('#btn-modifier').addEventListener('click', ()=>montrerVue('ech-config'));
+$('#fin-nouveau').addEventListener('click', ()=>montrerVue('ech-config'));
+
+/* ---------- Échauffement : lecteur ---------- */
+let seance = null, verrou = null;
+async function garderEcran(){ try{ verrou = await navigator.wakeLock.request('screen'); verrou.addEventListener('release',()=>{ verrou=null; }); }catch(e){} }
+function libererEcran(){ try{ if(verrou) verrou.release(); }catch(e){} verrou=null; }
+document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible' && seance && !verrou) garderEcran(); });
+
+const CIRC = 464.96;
+function demarrerSeance(){
+  audio();
+  seance = { prog:programme, idx:0, restant:0, pause:false, timer:null, jeton:0, ecoule:0, decalage:0, prefs:{...prefs} };
+  garderEcran();
+  montrerVue('ech-lecture');
+  allerExo(0);
 }
-function renderExercises(){
- $('exerciseList').innerHTML=exercises.map((e,i)=>`
- <div class="card"><span class="tag">${Math.round(e[2]/60)} min</span>
- <h3>${e[0]}</h3><p class="muted">${e[1]}</p>
- <button onclick="index=${i};renderStep();showPage('session')">Pratiquer</button></div>`).join('');
- const audios=get('audios',[]);
- $('audioList').innerHTML=audios.map(a=>`<div class="songline"><b>${escapeHTML(a.name)}</b><audio controls preload="none" src="${escapeAttr(a.url)}" style="width:100%"></audio></div>`).join('');
+$('#btn-commencer').addEventListener('click', demarrerSeance);
+
+function baseExo(e){ return BASE[seance.prefs.etat] + e.decal + seance.decalage; }
+
+function allerExo(i){
+  stopSons();
+  seance.idx = i; seance.jeton++;
+  const e = seance.prog[i];
+  seance.restant = e.sec; seance.pause = false;
+  const n = seance.prog.length;
+  $('#lec-numero').textContent = 'Exercice '+(i+1)+' / '+n;
+  const restantTotal = seance.prog.slice(i).reduce((s,x)=>s+x.sec,0);
+  $('#lec-total').textContent = 'reste ≈ '+Math.ceil(restantTotal/60)+' min';
+  $('#lec-barre').style.width = (i/n*100)+'%';
+  $('#lec-cat').textContent = CATS[e.cat];
+  $('#lec-nom').textContent = e.nom;
+  $('#lec-consignes').innerHTML = e.consignes.map(c=>'<li>'+echapper(c)+'</li>').join('');
+  $('#lec-pause').textContent = '⏸';
+  $('#lec-prec').disabled = i===0;
+  rendreSon();
+  majTemps();
+  lancerTimer();
 }
-function addAudio(){
- let name=$('audioName').value.trim(),url=$('audioUrl').value.trim();
- if(!name||!/^https?:\/\//i.test(url)){alert('Ajoute un nom et une URL audio valide.');return}
- let a=get('audios',[]);a.push({name,url});put('audios',a);
- $('audioName').value='';$('audioUrl').value='';renderExercises();
+function majTemps(){
+  const e = seance.prog[seance.idx];
+  $('#lec-temps').textContent = mmss(seance.restant);
+  $('#lec-etat').textContent = seance.pause ? 'en pause' : 'en cours';
+  $('#lec-cercle').setAttribute('stroke-dashoffset', String(CIRC*(1 - seance.restant/e.sec)));
 }
-function videoId(url){
- try{
-  let u=new URL(url);
-  if(u.hostname==='youtu.be')return u.pathname.slice(1);
-  if(u.hostname.endsWith('youtube.com')){
-   if(u.pathname==='/watch')return u.searchParams.get('v');
-   let m=u.pathname.match(/\/(embed|shorts)\/([^/]+)/);return m?m[2]:null;
+function lancerTimer(){
+  clearInterval(seance.timer);
+  seance.timer = setInterval(()=>{
+    if(seance.pause) return;
+    seance.restant--; seance.ecoule++;
+    majTemps();
+    if(seance.restant<=0){
+      clearInterval(seance.timer);
+      carillon();
+      const jeton = seance.jeton;
+      setTimeout(()=>{
+        if(!seance || seance.jeton!==jeton) return;
+        if(seance.idx < seance.prog.length-1) allerExo(seance.idx+1); else terminerSeance(true);
+      }, 1500);
+    }
+  }, 1000);
+}
+function rendreSon(){
+  const e = seance.prog[seance.idx], z = $('#lec-son'), mode = seance.prefs.mode;
+  if(!e.motif){ z.innerHTML = '<span class="doux">Pas de son pour cet exercice : suivez simplement les consignes.</span>'; return; }
+  let html = '';
+  if(mode==='piano') html = '<button class="btn btn-principal" id="son-accomp">🎹 Lancer l\'accompagnement</button>';
+  else if(mode==='demo') html = '<button class="btn btn-principal" id="son-demo">▶ Écouter la démonstration</button>';
+  else html = '<button class="btn btn-discret btn-petit" id="son-demo">▶ Écouter un exemple (facultatif)</button>';
+  html += '<div class="transpo"><button id="son-moins" aria-label="Plus grave">−</button><span>Départ : <span class="note-actuelle" id="son-note">'+nomNote(baseExo(e))+'</span></span><button id="son-plus" aria-label="Plus aigu">+</button></div>';
+  z.innerHTML = html;
+  const acc = $('#son-accomp');
+  if(acc) acc.addEventListener('click', ()=>{
+    if(boucleActive){ stopSons(); acc.textContent='🎹 Lancer l\'accompagnement'; $('#son-note').textContent=nomNote(baseExo(e)); return; }
+    acc.textContent = '■ Arrêter l\'accompagnement';
+    accompagnement(e.motif, baseExo(e), MONTEE[seance.prefs.etat], b=>{
+      if(b===null){ acc.textContent='🎹 Relancer l\'accompagnement'; const sn=$('#son-note'); if(sn) sn.textContent=nomNote(baseExo(e)); }
+      else { const sn=$('#son-note'); if(sn) sn.textContent=nomNote(b); }
+    });
+  });
+  const demo = $('#son-demo');
+  if(demo) demo.addEventListener('click', ()=>{ stopSons(); jouerMotif(e.motif, baseExo(e), 'voix'); });
+  $('#son-moins').addEventListener('click', ()=>{ seance.decalage--; stopSons(); rendreSon(); });
+  $('#son-plus').addEventListener('click', ()=>{ seance.decalage++; stopSons(); rendreSon(); });
+}
+$('#lec-pause').addEventListener('click', ()=>{
+  seance.pause = !seance.pause;
+  $('#lec-pause').textContent = seance.pause ? '▶' : '⏸';
+  if(seance.pause) stopSons();
+  majTemps();
+});
+$('#lec-suiv').addEventListener('click', ()=>{ if(seance.idx < seance.prog.length-1) allerExo(seance.idx+1); else terminerSeance(true); });
+$('#lec-prec').addEventListener('click', ()=>{ if(seance.idx>0) allerExo(seance.idx-1); });
+$('#lec-arreter').addEventListener('click', ()=>{
+  if(!confirm('Arrêter la séance ? Le temps déjà fait sera enregistré.')) return;
+  terminerSeance(false);
+});
+function terminerSeance(complete){
+  if(!seance) return;
+  clearInterval(seance.timer); stopSons(); libererEcran();
+  const minutes = Math.round(seance.ecoule/60);
+  if(seance.ecoule >= 60){
+    donnees.seances.push({ date:new Date().toISOString(), minutes, objectif:seance.prefs.objectif, etat:seance.prefs.etat, style:seance.prefs.style, complete });
+    sauver();
   }
- }catch{}
- return null;
+  const p = seance.prefs; seance = null;
+  if(complete){
+    $('#fin-resume').textContent = minutes+' minute'+(minutes>1?'s':'')+' d\'échauffement · '+LIBELLES.objectif[p.objectif]+'.';
+    montrerVue('ech-fin');
+  } else {
+    toast(minutes>=1 ? 'Séance enregistrée ('+minutes+' min)' : 'Séance arrêtée');
+    montrerVue('ech-config');
+  }
 }
-function addSong(){
- let name=$('songName').value.trim(),artist=$('artist').value.trim();
- let id=videoId($('youtube').value.trim());
- if(!name||!id||!/^[\w-]{11}$/.test(id)){alert('Vérifie le nom et le lien YouTube.');return}
- let s=get('songs',[]);
- s.push({name,artist,id,lyrics:$('lyrics').value});
- put('songs',s);
- ['songName','artist','youtube','lyrics'].forEach(k=>$(k).value='');
- renderSongs();
+
+/* ---------- Exercices : piano ---------- */
+(function construirePiano(){
+  const blanches=[60,62,64,65,67,69,71,72], nomsB=['Do','Ré','Mi','Fa','Sol','La','Si','Do'];
+  const noires=[[61,0],[63,1],[66,3],[68,4],[70,5]];
+  const p=$('#piano');
+  p.innerHTML = blanches.map((m,i)=>'<div class="blanche" data-m="'+m+'">'+nomsB[i]+'</div>').join('') +
+    noires.map(([m,i])=>'<div class="noire" data-m="'+m+'" style="left:calc('+((i+1)*12.5)+'% - 4%)"></div>').join('');
+  p.addEventListener('pointerdown', e=>{
+    const k=e.target.closest('[data-m]'); if(!k) return;
+    e.preventDefault();
+    note(Number(k.dataset.m), audio().currentTime+0.02, 1.2, 'piano');
+    k.classList.add('joue'); setTimeout(()=>k.classList.remove('joue'),250);
+  });
+})();
+
+/* ---------- Exercices : chrono notes tenues ---------- */
+let chronoDebut=null, chronoRaf=null;
+const fmtSec = s => s.toFixed(1).replace('.',',')+' s';
+function majChronoInfos(){
+  const t=donnees.tenues;
+  if(!t.length){ $('#chrono-infos').textContent='Aucune mesure pour le moment.'; return; }
+  const meilleur=Math.max(...t.map(x=>x.sec));
+  const derniers=t.slice(-5).reverse().map(x=>fmtSec(x.sec)).join(' · ');
+  $('#chrono-infos').innerHTML='Record : <b>'+fmtSec(meilleur)+'</b><br>Dernières : '+derniers;
 }
-function renderSongs(){
- let s=get('songs',[]);
- $('songs').innerHTML=s.length?s.map((x,i)=>`
- <div class="card"><h3>${escapeHTML(x.name)}</h3>
- <p class="muted">${escapeHTML(x.artist||'Artiste non renseigné')}</p>
- <div class="row">
- <button onclick="playSong(${i})">Écouter</button>
- <button class="secondary" onclick="deleteSong(${i})">Supprimer</button>
- </div></div>`).join(''):'<p class="muted">Aucune chanson ajoutée.</p>';
+function boucleChrono(){ $('#chrono-affiche').textContent=fmtSec((performance.now()-chronoDebut)/1000); chronoRaf=requestAnimationFrame(boucleChrono); }
+$('#chrono-btn').addEventListener('click', ()=>{
+  const b=$('#chrono-btn');
+  if(chronoDebut===null){
+    chronoDebut=performance.now(); b.textContent='Arrêter'; b.classList.replace('btn-principal','btn-ardoise'); boucleChrono();
+  } else {
+    cancelAnimationFrame(chronoRaf);
+    const sec=Math.round((performance.now()-chronoDebut)/100)/10;
+    chronoDebut=null; b.textContent='Démarrer'; b.classList.replace('btn-ardoise','btn-principal');
+    $('#chrono-affiche').textContent=fmtSec(sec);
+    if(sec>=1){
+      const ancien = donnees.tenues.length ? Math.max(...donnees.tenues.map(x=>x.sec)) : 0;
+      donnees.tenues.push({date:new Date().toISOString(),sec}); sauver();
+      if(sec>ancien && ancien>0) toast('Nouveau record ! 🌟');
+    }
+    majChronoInfos();
+  }
+});
+majChronoInfos();
+
+/* ---------- Exercices : bibliothèque sonore ---------- */
+let filtreBiblio='tous';
+const FILTRES=[['tous','Tous'],['souffle','Souffle'],['sovt','Échauffement doux'],['tete','Voix de tête'],['transition','Transitions'],['aigus','Aigus'],['tenue','Notes tenues'],['corps','Détente']];
+function rendreBiblio(){
+  $('#biblio-filtres').innerHTML = FILTRES.map(([v,l])=>'<button class="puce'+(v===filtreBiblio?' active':'')+'" data-f="'+v+'">'+l+'</button>').join('');
+  const liste = EXOS.filter(e=>filtreBiblio==='tous' ? e.cat!=='retour' : e.cat===filtreBiblio);
+  $('#biblio-liste').innerHTML = liste.map(e=>
+    '<details class="exo-carte"><summary><span>'+echapper(e.nom)+'</span></summary>'+
+    '<span class="badge ardoise" style="margin-top:8px">'+CATS[e.cat]+'</span>'+
+    '<ul class="consignes">'+e.consignes.map(c=>'<li>'+echapper(c)+'</li>').join('')+'</ul>'+
+    (e.motif ? '<div class="rangee"><button class="btn btn-secondaire btn-petit" data-demo="'+e.id+'">▶ Démonstration</button><button class="btn btn-secondaire btn-petit" data-piano="'+e.id+'">🎹 Au piano</button></div>' : '')+
+    '</details>').join('');
 }
-function playSong(i){
- let s=get('songs',[]),x=s[i];if(!x)return;
- $('player').innerHTML=`
- <h3>${escapeHTML(x.name)} · ${escapeHTML(x.artist)}</h3>
- <iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(x.id)}?rel=0" title="Lecteur karaoké" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
- <h3>Mes notes et paroles autorisées</h3>
- <div style="white-space:pre-wrap;line-height:1.7">${escapeHTML(x.lyrics||'Ajoute tes notes personnelles dans ta bibliothèque.')}</div>`;
+$('#biblio-filtres').addEventListener('click', e=>{ const b=e.target.closest('[data-f]'); if(!b) return; filtreBiblio=b.dataset.f; rendreBiblio(); });
+$('#biblio-liste').addEventListener('click', e=>{
+  const d=e.target.closest('[data-demo]'), p=e.target.closest('[data-piano]');
+  if(!d && !p) return;
+  const ex=EXOS.find(x=>x.id===(d ? d.dataset.demo : p.dataset.piano));
+  const base=58+ex.decal;
+  stopSons();
+  if(d) jouerMotif(ex.motif, base, 'voix');
+  else { const t=audio().currentTime+0.05; accord(base,t); jouerMotif(ex.motif, base, 'piano', t+0.8); }
+});
+$('#biblio-stop').addEventListener('click', stopSons);
+rendreBiblio();
+
+/* ---------- Karaoké ---------- */
+const audioK=$('#k-audio');
+$('#k-fichier').addEventListener('change', e=>{
+  const f=e.target.files[0]; if(!f) return;
+  if(audioK.src) URL.revokeObjectURL(audioK.src);
+  audioK.src=URL.createObjectURL(f);
+  audioK.classList.remove('cache'); $('#k-vitesse-zone').classList.remove('cache');
+  audioK.playbackRate=Number($('#k-vitesse').value)/100;
+  toast('Musique chargée : '+f.name);
+});
+$('#k-vitesse').addEventListener('input', e=>{
+  const v=Number(e.target.value); $('#k-vitesse-val').textContent=v+' %';
+  audioK.playbackRate=v/100; try{ audioK.preservesPitch=true; }catch(err){}
+});
+let rec=null, flux=null, morceaux=[], recDebut=0, recTimer=null;
+$('#k-rec').addEventListener('click', async ()=>{
+  const b=$('#k-rec');
+  if(rec && rec.state==='recording'){ rec.stop(); return; }
+  if(!navigator.mediaDevices || !window.MediaRecorder){ toast('Enregistrement non disponible sur cet appareil'); return; }
+  try{ flux=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}}); }
+  catch(err){ toast('Micro refusé : autorisez-le dans les réglages du navigateur'); return; }
+  morceaux=[]; rec=new MediaRecorder(flux);
+  rec.ondataavailable=ev=>{ if(ev.data && ev.data.size) morceaux.push(ev.data); };
+  rec.onstop=()=>{
+    clearInterval(recTimer);
+    flux.getTracks().forEach(t=>t.stop());
+    if($('#k-avec').checked) audioK.pause();
+    const type=rec.mimeType || 'audio/webm';
+    const blob=new Blob(morceaux,{type});
+    const url=URL.createObjectURL(blob);
+    const d=new Date();
+    const ext=type.includes('mp4')?'m4a':(type.includes('ogg')?'ogg':'webm');
+    const nom='lovwane-'+jourCle(d)+'-'+pad(d.getHours())+'h'+pad(d.getMinutes())+'.'+ext;
+    const div=document.createElement('div'); div.className='enreg';
+    div.innerHTML='<b>Prise du '+d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})+'</b><audio controls src="'+url+'"></audio><a href="'+url+'" download="'+nom+'">⬇ Télécharger sur mon téléphone</a>';
+    $('#k-enregs').prepend(div);
+    b.textContent='● Démarrer l\'enregistrement'; b.classList.replace('btn-principal','btn-ardoise');
+    $('#k-rec-etat').textContent='';
+  };
+  rec.start();
+  if($('#k-avec').checked && audioK.src){ audioK.play().catch(()=>{}); }
+  recDebut=Date.now();
+  b.textContent='■ Arrêter l\'enregistrement'; b.classList.replace('btn-ardoise','btn-principal');
+  const majRec=()=>{ $('#k-rec-etat').innerHTML='<span class="point-rec"></span>Enregistrement… '+mmss(Math.floor((Date.now()-recDebut)/1000)); };
+  majRec(); recTimer=setInterval(majRec,1000);
+});
+
+/* ---------- Statistiques ---------- */
+function serieJours(){
+  const jours=new Set([...donnees.seances, ...donnees.journal].map(x=>jourCle(x.date)));
+  let d=new Date(), n=0;
+  if(!jours.has(jourCle(d))) d.setDate(d.getDate()-1);
+  while(jours.has(jourCle(d))){ n++; d.setDate(d.getDate()-1); }
+  return n;
 }
-function deleteSong(i){
- let s=get('songs',[]);s.splice(i,1);put('songs',s);renderSongs();
- $('player').innerHTML='<p class="muted">Sélectionne une chanson.</p>';
+function meilleureTenue(){ return donnees.tenues.length ? fmtSec(Math.max(...donnees.tenues.map(x=>x.sec))) : '–'; }
+
+/* ---------- Accueil ---------- */
+const CONSEILS=[
+  "Une voix de tête soufflée se renforce avec des sons légers mais nets : « ng », « gué », « nié ».",
+  "Buvez de l'eau tout au long de la journée : vos cordes vocales s'hydratent de l'intérieur.",
+  "Dans les aigus, pensez « léger et vers l'avant » plutôt que « fort et vers le haut ».",
+  "Une cassure n'est pas un défaut : c'est un passage que l'on apprend à adoucir, jour après jour.",
+  "Avant une note tenue, inspirez calmement par le nez : les épaules restent basses.",
+  "Dix minutes chaque jour valent mieux qu'une heure une fois par semaine.",
+  "Si la gorge serre, revenez aux bulles des lèvres : elles remettent la voix en place.",
+  "Enregistrez-vous : l'oreille entend mieux de l'extérieur que de l'intérieur.",
+  "La mâchoire relâchée est la meilleure alliée des aigus.",
+  "Pour les ballades, la stabilité vient du souffle régulier, pas de la force.",
+  "Une voix fatiguée a besoin de douceur : réduisez le volume, pas le plaisir."
+];
+function rendreAccueil(){
+  const d=new Date();
+  $('#date-jour').textContent=d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+  const jourAn=Math.floor((d-new Date(d.getFullYear(),0,0))/86400000);
+  $('#conseil-jour').textContent=CONSEILS[jourAn%CONSEILS.length];
+  const limite=Date.now()-7*86400000;
+  const semaine=donnees.seances.filter(s=>new Date(s.date).getTime()>=limite);
+  $('#acc-seances').textContent=semaine.length;
+  $('#acc-minutes').textContent=semaine.reduce((s,x)=>s+x.minutes,0);
+  $('#acc-serie').textContent=serieJours();
+  $('#acc-tenue').textContent=meilleureTenue();
 }
-function escapeHTML(s){
- return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ---------- Suivi ---------- */
+let ressenti=null;
+const RESSENTIS={1:'😣 Difficile',2:'🙁 Moyenne',3:'😐 Correcte',4:'🙂 Bonne',5:'😍 Excellente'};
+$('#sv-ressenti').addEventListener('click', e=>{
+  const p=e.target.closest('.puce'); if(!p) return;
+  ressenti=Number(p.dataset.val);
+  $$('#sv-ressenti .puce').forEach(x=>x.classList.toggle('active', x===p));
+});
+$('#sv-ajouter').addEventListener('click', ()=>{
+  const texte=$('#sv-note').value.trim();
+  if(!ressenti && !texte){ toast('Choisissez un ressenti ou écrivez une note'); return; }
+  donnees.journal.push({date:new Date().toISOString(), ressenti, texte}); sauver();
+  ressenti=null; $('#sv-note').value=''; $$('#sv-ressenti .puce').forEach(x=>x.classList.remove('active'));
+  toast('Ajouté à votre journal 💜');
+  rendreSuivi();
+});
+function rendreSuivi(){
+  $('#sv-seances').textContent=donnees.seances.length;
+  $('#sv-minutes').textContent=donnees.seances.reduce((s,x)=>s+x.minutes,0);
+  $('#sv-serie').textContent=serieJours();
+  $('#sv-tenue').textContent=meilleureTenue();
+  const jours=[];
+  for(let i=6;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); jours.push(d); }
+  const mins=jours.map(d=>donnees.seances.filter(s=>jourCle(s.date)===jourCle(d)).reduce((a,s)=>a+s.minutes,0));
+  const max=Math.max(10,...mins);
+  $('#sv-barres').innerHTML=jours.map((d,i)=>
+    '<div class="barre-j"><span>'+(mins[i]||'')+'</span><div class="b" style="height:'+(mins[i]/max*100)+'%"></div><span>'+d.toLocaleDateString('fr-FR',{weekday:'short'})+'</span></div>').join('');
+  const elements=[
+    ...donnees.seances.map((s,i)=>({type:'s',i,date:s.date,html:'<b>🌬️ Échauffement · '+s.minutes+' min</b><small>'+LIBELLES.objectif[s.objectif]+' · '+LIBELLES.etat[s.etat]+(s.complete?'':' · interrompu')+'</small>'})),
+    ...donnees.journal.map((j,i)=>({type:'j',i,date:j.date,html:'<b>📖 '+(j.ressenti?RESSENTIS[j.ressenti]:'Note')+'</b>'+(j.texte?'<div>'+echapper(j.texte).replace(/\n/g,'<br>')+'</div>':'')}))
+  ].sort((a,b)=>new Date(b.date)-new Date(a.date));
+  $('#sv-histo').innerHTML = elements.length ? elements.map(x=>
+    '<li><div class="contenu"><small>'+new Date(x.date).toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})+'</small>'+x.html+'</div><button class="suppr" data-type="'+x.type+'" data-i="'+x.i+'" aria-label="Supprimer">✕</button></li>').join('')
+    : '<li class="doux">Votre historique apparaîtra ici après votre premier échauffement ou votre première note.</li>';
 }
-function escapeAttr(s){return escapeHTML(s)}
-function renderHistory(){
- let h=get('history',[]);
- $('count').textContent=h.length;$('total').textContent=h.length;
- $('history').innerHTML=h.length?h.map(x=>`<div class="songline">${escapeHTML(x.name)}<br><small class="muted">${escapeHTML(x.date)}</small></div>`).join(''):'<p class="muted">Tes séances apparaîtront ici.</p>';
-}
-function saveJournal(){
- put('journal',$('journal').value);$('saved').textContent='Notes enregistrées ♡';
-}
-$('journal').value=get('journal','');
-renderStep();renderHistory();renderExercises();
-if('serviceWorker' in navigator && location.protocol.startsWith('http')){
- window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+$('#sv-histo').addEventListener('click', e=>{
+  const b=e.target.closest('.suppr'); if(!b) return;
+  if(!confirm('Supprimer cet élément ?')) return;
+  const liste = b.dataset.type==='s' ? donnees.seances : donnees.journal;
+  liste.splice(Number(b.dataset.i),1); sauver(); rendreSuivi();
+});
+
+/* ---------- Démarrage ---------- */
+majPuces();
+afficher(location.hash.slice(1) || 'accueil');
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('sw.js').then(r=>r.update()).catch(()=>{});
+  });
 }
 </script>
 </body>
