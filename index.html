@@ -8,77 +8,113 @@
 <link rel="manifest" href="manifest.json">
 <title>Lovwane Studio</title>
 <style>
+
+/* NOUVELLE IDENTITE VISUELLE LOVWANE STUDIO */
 :root {
-  --pink:#f5e6ed;
-  --pink2:#eacbd9;
-  --mauve:#88718f;
-  --dark:#483b50;
-  --cream:#fffafd;
-  --text:#514653;
+  --pink: #D7B3BD;
+  --pink2: #E8D9DE;
+  --mauve: #A58AAB;
+  --dark: #343C49;
+  --cream: #F4F1ED;
+  --text: #343C49;
+
+  --slate: #536579;
+  --ivory: #F4F1ED;
+  --accent: #A58AAB;
 }
-* {box-sizing:border-box}
+
 body {
- margin:0;background:var(--cream);color:var(--text);
- font-family:Arial,sans-serif;padding-bottom:85px
+  background: var(--ivory);
+  color: var(--text);
 }
+
 header {
- padding:25px 20px 20px;
- background:linear-gradient(135deg,#f6e8ef,#e6d9ee);
- border-radius:0 0 28px 28px
+  background: linear-gradient(
+    135deg,
+    #F4F1ED,
+    #E5DFE8
+  );
+  border-bottom: 3px solid #D7B3BD;
 }
-header small {letter-spacing:2px;color:#806d83}
-h1 {font-family:Georgia,serif;font-size:29px;margin:8px 0}
-header p {font-size:13px;margin:0}
-main {padding:18px;max-width:650px;margin:auto}
-h2 {font-family:Georgia,serif;font-size:23px}
-h3 {font-size:16px;margin:5px 0}
+
+header small {
+  color: #536579;
+}
+
+header h1 {
+  color: #343C49;
+}
+
+header p {
+  color: #536579;
+}
+
 .card {
- background:white;border:1px solid #f0e5ed;
- border-radius:18px;padding:16px;margin:12px 0;
- box-shadow:0 4px 15px #60445c0b
+  background: #FFFFFF;
+  border: 1px solid #E5E0E5;
+  box-shadow: 0 4px 16px #343C490D;
 }
-button,.btn {
- border:0;border-radius:13px;padding:12px 15px;
- background:var(--mauve);color:white;font-weight:bold;
- cursor:pointer;font-size:14px
+
+button, .btn {
+  background: #536579;
+  color: #FFFFFF;
 }
-button.secondary {background:var(--pink);color:var(--dark)}
-button:disabled {opacity:.45}
-.row {display:flex;gap:9px;align-items:center;flex-wrap:wrap}
-.between {justify-content:space-between}
-.muted {color:#928494;font-size:13px}
+
+button:hover {
+  background: #3F5063;
+}
+
+button.secondary {
+  background: #E8D9DE;
+  color: #343C49;
+}
+
 .tag {
- background:#f5e9ef;color:#816783;border-radius:20px;
- padding:5px 10px;font-size:11px;display:inline-block
+  background: #EAE3EB;
+  color: #65536C;
 }
-input,select,textarea {
- width:100%;padding:12px;border:1px solid #e9dce7;
- border-radius:11px;background:#fffafd;color:var(--text);
- margin:6px 0 12px;font:inherit
+
+input, select, textarea {
+  background: #FFFFFF;
+  border-color: #DCD6DE;
+  color: #343C49;
 }
-textarea {min-height:85px;resize:vertical}
+
 nav {
- position:fixed;bottom:0;left:0;right:0;
- background:#fffafd;border-top:1px solid #eee3eb;
- display:flex;justify-content:space-around;padding:10px 2px;
- z-index:10
+  background: #FFFFFF;
+  border-color: #E5E0E5;
 }
+
 nav button {
- background:transparent;color:#806d83;padding:8px 5px;
- font-size:11px;flex:1
+  color: #536579;
 }
-nav button.active {color:#9b6287;background:#f7edf2}
-.page {display:none}
-.page.active {display:block}
+
+nav button.active {
+  color: #536579;
+  background: #EAE3EB;
+}
+
 .timer {
- font-family:Georgia,serif;font-size:52px;
- text-align:center;color:#80658b;margin:18px
+  color: #536579;
 }
-.progress {height:7px;background:#f1e7ef;border-radius:9px;overflow:hidden}
-.progress div {height:100%;background:#b889a8;width:0}
-iframe {width:100%;aspect-ratio:16/9;border:0;border-radius:13px}
-.songline {padding:12px;border-bottom:1px solid #f0e8ef}
-.songline:last-child {border:0}
+
+.progress {
+  background: #EAE3EB;
+}
+
+.progress div {
+  background: #A58AAB;
+}
+
+/* Accueil */
+#home > .card:first-child {
+  background: linear-gradient(
+    135deg,
+    #EAE3EB,
+    #F4F1ED
+  ) !important;
+}
+
 </style>
 </head>
 <body>
