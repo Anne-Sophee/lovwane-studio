@@ -1,6 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="115" fill="#f3e1eb"/>
-  <circle cx="256" cy="256" r="177" fill="#e6ccdf"/>
-  <path d="M300 113v205a73 73 0 1 1-32-60V170l126-30v158a73 73 0 1 1-32-60V113z" fill="#80668d"/>
-  <path d="M145 375c38 38 88 38 111 0" fill="none" stroke="#fffafd" stroke-width="12" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <title>Lovwane Studio</title>
+  <!-- Fond bleu ardoise -->
+  <rect width="512" height="512" rx="112" fill="#4b5b6f"/>
+  <!-- Anneau lilas -->
+  <circle cx="256" cy="256" r="168" fill="none" stroke="#d6cce0" stroke-width="5"/>
+  <!-- Perle rose -->
+  <circle cx="256" cy="88" r="10" fill="#e3b3bd"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="16">
+    <!-- L ivoire -->
+    <path d="M196 170 V336 H268" stroke="#faf7f1"/>
+    <!-- S lilas qui s'enroule comme une clé de sol -->
+    <path d="M326 196 C312 176 258 176 258 212 C258 248 330 244 330 286 C330 330 270 336 250 312 C236 292 254 270 278 276 C296 282 294 302 276 302" stroke="#c9b9d8"/>
+  </g>
 </svg>
