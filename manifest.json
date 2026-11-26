@@ -1,0 +1,20 @@
+{
+  "name": "Lovwane Studio",
+  "short_name": "Lovwane",
+  "description": "Mon studio personnel de chant",
+  "lang": "fr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fffafd",
+  "theme_color": "#f5e9ef",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
