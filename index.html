@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f5e9ef">
+<meta name="description" content="Ton studio personnel de chant">
+<link rel="manifest" href="manifest.json">
+<title>Lovwane Studio</title>
+<style>
+:root {
+  --pink:#f5e6ed;
+  --pink2:#eacbd9;
+  --mauve:#88718f;
+  --dark:#483b50;
+  --cream:#fffafd;
+  --text:#514653;
+}
+* {box-sizing:border-box}
+body {
+ margin:0;background:var(--cream);color:var(--text);
+ font-family:Arial,sans-serif;padding-bottom:85px
+}
+header {
+ padding:25px 20px 20px;
+ background:linear-gradient(135deg,#f6e8ef,#e6d9ee);
+ border-radius:0 0 28px 28px
+}
+header small {letter-spacing:2px;color:#806d83}
+h1 {font-family:Georgia,serif;font-size:29px;margin:8px 0}
+header p {font-size:13px;margin:0}
+main {padding:18px;max-width:650px;margin:auto}
+h2 {font-family:Georgia,serif;font-size:23px}
+h3 {font-size:16px;margin:5px 0}
+.card {
+ background:white;border:1px solid #f0e5ed;
+ border-radius:18px;padding:16px;margin:12px 0;
+ box-shadow:0 4px 15px #60445c0b
+}
+button,.btn {
+ border:0;border-radius:13px;padding:12px 15px;
+ background:var(--mauve);color:white;font-weight:bold;
+ cursor:pointer;font-size:14px
+}
+button.secondary {background:var(--pink);color:var(--dark)}
+button:disabled {opacity:.45}
+.row {display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.between {justify-content:space-between}
+.muted {color:#928494;font-size:13px}
+.tag {
+ background:#f5e9ef;color:#816783;border-radius:20px;
+ padding:5px 10px;font-size:11px;display:inline-block
+}
+input,select,textarea {
+ width:100%;padding:12px;border:1px solid #e9dce7;
+ border-radius:11px;background:#fffafd;color:var(--text);
+ margin:6px 0 12px;font:inherit
+}
+textarea {min-height:85px;resize:vertical}
+nav {
+ position:fixed;bottom:0;left:0;right:0;
+ background:#fffafd;border-top:1px solid #eee3eb;
+ display:flex;justify-content:space-around;padding:10px 2px;
+ z-index:10
+}
+nav button {
+ background:transparent;color:#806d83;padding:8px 5px;
+ font-size:11px;flex:1
+}
+nav button.active {color:#9b6287;background:#f7edf2}
+.page {display:none}
+.page.active {display:block}
+.timer {
+ font-family:Georgia,serif;font-size:52px;
+ text-align:center;color:#80658b;margin:18px
+}
+.progress {height:7px;background:#f1e7ef;border-radius:9px;overflow:hidden}
+.progress div {height:100%;background:#b889a8;width:0}
+iframe {width:100%;aspect-ratio:16/9;border:0;border-radius:13px}
+.songline {padding:12px;border-bottom:1px solid #f0e8ef}
+.songline:last-child {border:0}
+</style>
+</head>
+<body>
+<header>
+ <small>TON ESPACE VOCAL PERSONNEL</small>
+ <h1>Lovwane Studio ♡</h1>
+ <p>Respire. Chante. Progresse.</p>
+</header>
+
+<main>
+<section id="home" class="page active">
+ <div class="card" style="background:linear-gradient(135deg,#f7eaf0,#eee5f3)">
+  <span class="tag">TON STUDIO</span>
+  <h2>Bonjour, chanteuse !</h2>
+  <p>Chaque séance est un pas vers une voix plus libre.</p>
+  <button onclick="showPage('session')">Commencer ma séance</button>
+ </div>
+ <h2>Mon espace</h2>
+ <div class="card">
+  <div class="row between"><h3>Mes séances terminées</h3><b id="count">0</b></div>
+  <p class="muted">Tes entraînements enregistrés sur cet appareil.</p>
+ </div>
+ <div class="card">
+  <h3>Mes priorités vocales</h3>
+  <p>♡ Stabilité et souffle</p>
+  <p>♡ Voix de tête et transitions</p>
+  <p>♡ Voix mixte et aigus</p>
+  <p>♡ Puissance progressive</p>
+ </div>
+ <div class="card">
+  <h3>Ma prochaine séance</h3>
+  <p>Gravity · Sara Bareilles</p>
+  <p class="muted">Souffle, stabilité et notes tenues.</p>
+ </div>
+</section>
+
+<section id="session" class="page">
+ <h2>Ma séance guidée</h2>
+ <p class="muted">Séance douce de reprise – environ 20 minutes.</p>
+ <div id="exercise" class="card">
+  <span class="tag" id="step">EXERCICE 1 / 5</span>
+  <h2 id="exTitle">Réveil vocal doux</h2>
+  <p id="exDesc">Bourdonnements légers et glissés confortables.</p>
+  <label>Durée de pratique (secondes)</label>
+  <input type="number" id="duration" value="180" min="5">
+  <div class="timer" id="clock">03:00</div>
+  <div class="progress"><div id="bar"></div></div>
+  <div class="row" style="justify-content:center;margin-top:15px">
+   <button id="start" onclick="startTimer()">Démarrer</button>
+   <button class="secondary" onclick="pauseTimer()">Pause</button>
+   <button class="secondary" onclick="resetTimer()">Réinitialiser</button>
+  </div>
+  <button style="width:100%;margin-top:12px" onclick="nextExercise()">Exercice suivant →</button>
+ </div>
+ <div class="card">
+  <h3>Progression de la séance</h3>
+  <div id="steps"></div>
+ </div>
+</section>
+
+<section id="exercises" class="page">
+ <h2>Mes exercices vocaux</h2>
+ <p class="muted">Choisis une compétence à travailler.</p>
+ <div id="exerciseList"></div>
+ <div class="card">
+  <h3>Ajouter un exemple audio</h3>
+  <p class="muted">Tu peux associer un fichier audio accessible par URL à un exercice.</p>
+  <input id="audioName" placeholder="Nom de l'exercice">
+  <input id="audioUrl" placeholder="URL d'un fichier audio MP3">
+  <button onclick="addAudio()">Ajouter l'audio</button>
+  <div id="audioList"></div>
+ </div>
+</section>
+
+<section id="karaoke" class="page">
+ <h2>Mon studio karaoké ♫</h2>
+ <p class="muted">Ajoute une vidéo de karaoké YouTube.</p>
+ <div class="card">
+  <label>Nom de la chanson</label>
+  <input id="songName" placeholder="Ex. Chandelier">
+  <label>Artiste</label>
+  <input id="artist" placeholder="Ex. Sia">
+  <label>Lien YouTube</label>
+  <input id="youtube" placeholder="https://www.youtube.com/watch?v=...">
+  <label>Mes paroles ou notes personnelles</label>
+  <textarea id="lyrics" placeholder="Ajoute tes notes de travail ou les paroles que tu es autorisée à utiliser..."></textarea>
+  <button onclick="addSong()">Ajouter à ma bibliothèque</button>
+ </div>
+ <div id="player" class="card">
+  <p class="muted">Sélectionne une chanson pour commencer.</p>
+ </div>
+ <h3>Ma bibliothèque</h3>
+ <div id="songs"></div>
+</section>
+
+<section id="progress" class="page">
+ <h2>Mon évolution ♡</h2>
+ <div class="card">
+  <h3>Mes séances terminées</h3>
+  <div class="timer" id="total">0</div>
+  <p class="muted" style="text-align:center">Séances enregistrées</p>
+ </div>
+ <div class="card">
+  <h3>Mon journal vocal</h3>
+  <textarea id="journal" placeholder="Comment était ma voix aujourd'hui ? Mes aigus ? Mon souffle ?"></textarea>
+  <button onclick="saveJournal()">Enregistrer mes notes</button>
+  <p id="saved" class="muted"></p>
+ </div>
+ <div class="card">
+  <h3>Historique</h3>
+  <div id="history"></div>
+ </div>
+</section>
+</main>
+
+<nav>
+ <button class="active" data-page="home" onclick="showPage('home')">⌂<br>Accueil</button>
+ <button data-page="session" onclick="showPage('session')">◷<br>Séance</button>
+ <button data-page="exercises" onclick="showPage('exercises')">♫<br>Exercices</button>
+ <button data-page="karaoke" onclick="showPage('karaoke')">♪<br>Karaoké</button>
+ <button data-page="progress" onclick="showPage('progress')">♡<br>Progrès</button>
+</nav>
+
+<script>
+const $ = id => document.getElementById(id);
+const get = (key, fallback) => {
+ try { return JSON.parse(localStorage.getItem(key)) ?? fallback }
+ catch { return fallback }
+};
+const put = (key,value) => localStorage.setItem(key,JSON.stringify(value));
+
+const exercises = [
+ ["Réveil vocal doux","Bourdonnements et glissés confortables.",180],
+ ["Souffle et phrasé","Chante doucement une phrase sans pousser.",180],
+ ["Stabilité","Travaille quelques notes confortables et régulières.",180],
+ ["Transitions","Chante une mélodie douce en explorant les registres.",180],
+ ["Chanson plaisir","Gravity ou une chanson de ton choix.",360]
+];
+let index=0,remaining=180,interval=null,running=false;
+
+function showPage(id) {
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ $(id).classList.add('active');
+ document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));
+ if(id==='progress') renderHistory();
+ if(id==='karaoke') renderSongs();
+ if(id==='exercises') renderExercises();
+}
+function renderStep(){
+ const e=exercises[index];
+ $('step').textContent=`EXERCICE ${index+1} / ${exercises.length}`;
+ $('exTitle').textContent=e[0];$('exDesc').textContent=e[1];
+ $('duration').value=e[2];remaining=e[2];renderClock();
+ $('steps').innerHTML=exercises.map((x,i)=>`<div class="songline">${i===index?'●':'○'} ${x[0]}</div>`).join('');
+}
+function renderClock(){
+ $('clock').textContent=String(Math.floor(remaining/60)).padStart(2,'0')+':'+String(remaining%60).padStart(2,'0');
+ $('bar').style.width=(100*(1-remaining/Math.max(1,Number($('duration').value))))+'%';
+}
+$('duration').addEventListener('change',()=>{
+ if(!running){remaining=Math.max(5,Number($('duration').value)||5);renderClock()}
+});
+function startTimer(){
+ if(running)return;
+ running=true;$('start').textContent='En cours…';
+ interval=setInterval(()=>{
+  remaining--;renderClock();
+  if(remaining<=0){
+   pauseTimer();$('start').textContent='Terminé !';
+   if(navigator.vibrate)navigator.vibrate([150,80,150]);
+  }
+ },1000);
+}
+function pauseTimer(){
+ clearInterval(interval);interval=null;running=false;
+ $('start').textContent='Reprendre';
+}
+function resetTimer(){pauseTimer();remaining=Math.max(5,Number($('duration').value)||5);renderClock()}
+function nextExercise(){
+ pauseTimer();
+ if(index===exercises.length-1){
+  index=0;
+  let h=get('history',[]);
+  h.unshift({date:new Date().toLocaleString('fr-CA'),name:'Séance guidée'});
+  put('history',h);
+  alert('Bravo ! Séance terminée. Prends un moment pour récupérer.');
+ }else index++;
+ renderStep();
+}
+function renderExercises(){
+ $('exerciseList').innerHTML=exercises.map((e,i)=>`
+ <div class="card"><span class="tag">${Math.round(e[2]/60)} min</span>
+ <h3>${e[0]}</h3><p class="muted">${e[1]}</p>
+ <button onclick="index=${i};renderStep();showPage('session')">Pratiquer</button></div>`).join('');
+ const audios=get('audios',[]);
+ $('audioList').innerHTML=audios.map(a=>`<div class="songline"><b>${escapeHTML(a.name)}</b><audio controls preload="none" src="${escapeAttr(a.url)}" style="width:100%"></audio></div>`).join('');
+}
+function addAudio(){
+ let name=$('audioName').value.trim(),url=$('audioUrl').value.trim();
+ if(!name||!/^https?:\/\//i.test(url)){alert('Ajoute un nom et une URL audio valide.');return}
+ let a=get('audios',[]);a.push({name,url});put('audios',a);
+ $('audioName').value='';$('audioUrl').value='';renderExercises();
+}
+function videoId(url){
+ try{
+  let u=new URL(url);
+  if(u.hostname==='youtu.be')return u.pathname.slice(1);
+  if(u.hostname.endsWith('youtube.com')){
+   if(u.pathname==='/watch')return u.searchParams.get('v');
+   let m=u.pathname.match(/\/(embed|shorts)\/([^/]+)/);return m?m[2]:null;
+  }
+ }catch{}
+ return null;
+}
+function addSong(){
+ let name=$('songName').value.trim(),artist=$('artist').value.trim();
+ let id=videoId($('youtube').value.trim());
+ if(!name||!id||!/^[\w-]{11}$/.test(id)){alert('Vérifie le nom et le lien YouTube.');return}
+ let s=get('songs',[]);
+ s.push({name,artist,id,lyrics:$('lyrics').value});
+ put('songs',s);
+ ['songName','artist','youtube','lyrics'].forEach(k=>$(k).value='');
+ renderSongs();
+}
+function renderSongs(){
+ let s=get('songs',[]);
+ $('songs').innerHTML=s.length?s.map((x,i)=>`
+ <div class="card"><h3>${escapeHTML(x.name)}</h3>
+ <p class="muted">${escapeHTML(x.artist||'Artiste non renseigné')}</p>
+ <div class="row">
+ <button onclick="playSong(${i})">Écouter</button>
+ <button class="secondary" onclick="deleteSong(${i})">Supprimer</button>
+ </div></div>`).join(''):'<p class="muted">Aucune chanson ajoutée.</p>';
+}
+function playSong(i){
+ let s=get('songs',[]),x=s[i];if(!x)return;
+ $('player').innerHTML=`
+ <h3>${escapeHTML(x.name)} · ${escapeHTML(x.artist)}</h3>
+ <iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(x.id)}?rel=0" title="Lecteur karaoké" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+ <h3>Mes notes et paroles autorisées</h3>
+ <div style="white-space:pre-wrap;line-height:1.7">${escapeHTML(x.lyrics||'Ajoute tes notes personnelles dans ta bibliothèque.')}</div>`;
+}
+function deleteSong(i){
+ let s=get('songs',[]);s.splice(i,1);put('songs',s);renderSongs();
+ $('player').innerHTML='<p class="muted">Sélectionne une chanson.</p>';
+}
+function escapeHTML(s){
+ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function escapeAttr(s){return escapeHTML(s)}
+function renderHistory(){
+ let h=get('history',[]);
+ $('count').textContent=h.length;$('total').textContent=h.length;
+ $('history').innerHTML=h.length?h.map(x=>`<div class="songline">${escapeHTML(x.name)}<br><small class="muted">${escapeHTML(x.date)}</small></div>`).join(''):'<p class="muted">Tes séances apparaîtront ici.</p>';
+}
+function saveJournal(){
+ put('journal',$('journal').value);$('saved').textContent='Notes enregistrées ♡';
+}
+$('journal').value=get('journal','');
+renderStep();renderHistory();renderExercises();
+if('serviceWorker' in navigator && location.protocol.startsWith('http')){
+ window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+}
+</script>
+</body>
+</html>
