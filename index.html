@@ -187,12 +187,34 @@ input[type=range]{width:100%;accent-color:var(--mauve)}
 textarea{width:100%;min-height:90px;border:1.5px solid var(--mauve-clair);border-radius:12px;padding:10px;font:inherit;background:var(--blanc);resize:vertical}
 label.case{display:flex;align-items:center;gap:8px;font-size:.92rem;margin-top:10px}
 label.case input{accent-color:var(--mauve);width:18px;height:18px}
-.enreg{border-top:1px solid var(--ivoire-fonce);padding-top:10px;margin-top:10px}
-.enreg a{font-size:.88rem;color:var(--mauve-fonce)}
 .point-rec{display:inline-block;width:10px;height:10px;border-radius:50%;background:#c46a7c;margin-right:6px;animation:clignote 1s infinite}
 @keyframes clignote{50%{opacity:.25}}
 .astuces{padding-left:20px;font-size:.93rem}
 .astuces li{margin-bottom:6px}
+
+/* Enregistrements */
+.attente{margin-top:14px;padding:14px;border-radius:14px;background:var(--mauve-voile);border:1px solid var(--mauve-clair)}
+.attente label{display:block;margin-top:10px;margin-bottom:4px}
+.attente input[type=text]{width:100%;border:1.5px solid var(--mauve-clair);border-radius:10px;padding:10px;font:inherit;background:var(--blanc)}
+.prises{list-style:none;margin-top:6px}
+.prise{padding:14px 0;border-bottom:1px solid var(--ivoire-fonce)}
+.prise:last-child{border-bottom:none}
+.prise-tete{display:flex;align-items:center;gap:10px}
+.prise-comp{flex:none;width:20px;height:20px;accent-color:var(--mauve)}
+.prise-info{min-width:0}
+.prise-info b{display:block;color:var(--ardoise);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prise-info small{color:var(--texte-doux);font-size:.82rem}
+.prise audio{margin-top:8px}
+.prise-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.prise-actions button{border:none;background:var(--ivoire-fonce);color:var(--ardoise);border-radius:999px;padding:7px 12px;font-size:.82rem;cursor:pointer}
+.prise-actions button[data-act=supprimer]{background:#f7e4e8;color:#9b3d4f}
+.comp-grille{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:8px 0 14px}
+.comp-col{text-align:left;border:1.5px solid var(--ivoire-fonce);background:var(--ivoire);border-radius:14px;padding:12px;cursor:pointer;font:inherit;color:var(--texte);min-width:0}
+.comp-col.actif{border-color:var(--mauve);background:var(--mauve-voile)}
+.comp-col b{display:block;font-size:.88rem;color:var(--ardoise);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.comp-col small{display:block;color:var(--texte-doux);font-size:.76rem}
+.comp-lettre{display:inline-flex;width:24px;height:24px;border-radius:50%;background:var(--mauve);color:#fff;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;margin-bottom:6px}
+.comp-temps{display:flex;justify-content:space-between;color:var(--texte-doux);font-size:.85rem;margin-top:4px}
 
 /* Suivi */
 .barres{display:flex;align-items:flex-end;gap:8px;height:130px;margin-top:10px}
@@ -489,11 +511,32 @@ label.case input{accent-color:var(--mauve);width:18px;height:18px}
 
   <div class="carte">
     <h2>🎙️ M'enregistrer</h2>
-    <p class="doux">Avec des écouteurs, seule votre voix est enregistrée. Sans écouteurs, la musique s'entend aussi. Les enregistrements restent disponibles tant que l'application est ouverte : téléchargez ceux que vous voulez garder.</p>
+    <p class="doux">Avec des écouteurs, seule votre voix est enregistrée. Sans écouteurs, la musique s'entend aussi. Le micro n'est utilisé que pendant l'enregistrement, et vos prises restent sur ce téléphone.</p>
     <label class="case"><input type="checkbox" id="k-avec" checked> Lancer la musique en même temps</label>
     <button class="btn btn-ardoise btn-large" id="k-rec" style="margin-top:12px">● Démarrer l'enregistrement</button>
     <div id="k-rec-etat" class="doux" style="margin-top:8px"></div>
-    <div id="k-enregs"></div>
+    <div id="k-attente"></div>
+  </div>
+
+  <div class="carte">
+    <h2>🎧 Mes enregistrements</h2>
+    <p class="doux" id="k-resume"></p>
+    <ul class="prises" id="k-liste"></ul>
+  </div>
+
+  <div class="carte cache" id="k-comp">
+    <h2>⚖️ Comparer deux prises</h2>
+    <div class="comp-grille">
+      <button class="comp-col actif" id="comp-a" data-cote="a"></button>
+      <button class="comp-col" id="comp-b" data-cote="b"></button>
+    </div>
+    <input type="range" id="comp-pos" min="0" max="1000" value="0" aria-label="Position">
+    <div class="comp-temps"><span id="comp-temps">0:00</span><span id="comp-total">0:00</span></div>
+    <div class="rangee">
+      <button class="btn btn-principal" id="comp-lecture">▶ Écouter</button>
+      <button class="btn btn-secondaire" id="comp-bascule">⇄ Passer à B</button>
+    </div>
+    <p class="doux" style="margin-top:12px">Astuce : basculez pendant l'écoute pour entendre le même passage dans les deux prises.</p>
   </div>
 
   <div class="carte">
@@ -570,7 +613,7 @@ label.case input{accent-color:var(--mauve);width:18px;height:18px}
 
   <div class="carte section">
     <h2 class="section-titre">Sauvegarder</h2>
-    <p class="doux">Téléchargez un fichier de sauvegarde et gardez-le en lieu sûr (Google Drive, e-mail…). Il permet de tout retrouver si vous changez de téléphone ou si le navigateur efface ses données.</p>
+    <p class="doux">Téléchargez un fichier de sauvegarde et gardez-le en lieu sûr (Google Drive, e-mail…). Il permet de tout retrouver si vous changez de téléphone ou si le navigateur efface ses données. Les enregistrements audio n'y sont pas inclus (ils seraient trop lourds) : téléchargez ceux que vous tenez à garder depuis le Karaoké.</p>
     <p class="doux pa-derniere" id="pa-derniere"></p>
     <button class="btn btn-principal btn-large" id="pa-exporter">⬇ Télécharger ma sauvegarde</button>
   </div>
@@ -583,7 +626,7 @@ label.case input{accent-color:var(--mauve);width:18px;height:18px}
 
   <div class="carte section">
     <h2 class="section-titre">Supprimer mes données</h2>
-    <p class="doux">Efface définitivement de ce téléphone vos séances, votre journal, vos mesures et vos préférences.</p>
+    <p class="doux">Efface définitivement de ce téléphone vos séances, votre journal, vos mesures, vos enregistrements et vos préférences.</p>
     <button class="btn btn-danger btn-large" id="pa-supprimer" style="margin-top:12px">Supprimer toutes mes données</button>
   </div>
 
@@ -616,7 +659,7 @@ function toast(txt){ const t=$('#toast'); t.textContent=txt; t.classList.add('vi
 /* ---------- Stockage des données (module isolé) ----------
    Toutes les lectures et écritures passent par ce module.
    Pour ajouter plus tard une synchronisation en ligne, seul ce module devra évoluer. */
-const APP_VERSION = '2.1';
+const APP_VERSION = '2.2';
 const Stockage = (()=>{
   const NOM='lovwane-studio', VERSION=1;
   const MAGASINS=['etat','seances','journal','tenues','enregistrements','analyses','bilans','chansons'];
@@ -647,6 +690,9 @@ const Stockage = (()=>{
   }
   async function lireCollection(m){ if(mode!=='indexeddb') return []; return (await requete(db.transaction(m).objectStore(m).getAll()))||[]; }
   async function remplacer(m, liste){ if(mode!=='indexeddb') return; await transaction([m],'readwrite',t=>{ const st=t.objectStore(m); st.clear(); liste.forEach(x=>st.put(x)); }); }
+  async function ajouter(m,obj){ if(mode!=='indexeddb') throw new Error('Stockage indisponible'); await transaction([m],'readwrite',t=>{ t.objectStore(m).put(obj); }); }
+  async function supprimer(m,id){ if(mode!=='indexeddb') return; await transaction([m],'readwrite',t=>{ t.objectStore(m).delete(id); }); }
+  async function lire(m,id){ if(mode!=='indexeddb') return null; return (await requete(db.transaction(m).objectStore(m).get(id)))||null; }
   async function lireEtat(cle){ if(mode!=='indexeddb') return null; const r=await requete(db.transaction('etat').objectStore('etat').get(cle)); return r ? r.valeur : null; }
   async function ecrireEtat(cle,valeur){ if(mode!=='indexeddb') return; await transaction(['etat'],'readwrite',t=>{ t.objectStore('etat').put({id:cle, valeur}); }); }
   async function toutEffacer(){
@@ -657,7 +703,7 @@ const Stockage = (()=>{
   function ecrireAncien(d){ try{ localStorage.setItem(CLE_LS, JSON.stringify(d)); }catch(e){} }
   async function estimation(){ try{ return await navigator.storage.estimate(); }catch(e){ return null; } }
   async function persistant(){ try{ return await navigator.storage.persisted(); }catch(e){ return false; } }
-  return { init, lireCollection, remplacer, lireEtat, ecrireEtat, toutEffacer, lireAncien, ecrireAncien, estimation, persistant, get mode(){ return mode; } };
+  return { init, lireCollection, remplacer, ajouter, supprimer, lire, lireEtat, ecrireEtat, toutEffacer, lireAncien, ecrireAncien, estimation, persistant, get mode(){ return mode; } };
 })();
 
 /* ---------- Données de l'application ---------- */
@@ -707,6 +753,7 @@ function afficher(id){
   if(id==='accueil') rendreAccueil();
   if(id==='suivi') rendreSuivi();
   if(id==='parametres') rendreParametres();
+  if(id==='karaoke') rendreEnregistrements();
 }
 function aller(id){ if(location.hash !== '#'+id) location.hash = id; else afficher(id); }
 window.addEventListener('hashchange', () => afficher(location.hash.slice(1)));
@@ -1161,50 +1208,218 @@ rendreBiblio();
 
 /* ---------- Karaoké ---------- */
 const audioK=$('#k-audio');
+let nomMusique='';
 $('#k-fichier').addEventListener('change', e=>{
   const f=e.target.files[0]; if(!f) return;
   if(audioK.src) URL.revokeObjectURL(audioK.src);
   audioK.src=URL.createObjectURL(f);
   audioK.classList.remove('cache'); $('#k-vitesse-zone').classList.remove('cache');
   audioK.playbackRate=Number($('#k-vitesse').value)/100;
+  nomMusique=f.name.replace(/\.[^.]+$/,'').slice(0,50);
   toast('Musique chargée : '+f.name);
 });
 $('#k-vitesse').addEventListener('input', e=>{
   const v=Number(e.target.value); $('#k-vitesse-val').textContent=v+' %';
   audioK.playbackRate=v/100; try{ audioK.preservesPitch=true; }catch(err){}
 });
-let rec=null, flux=null, morceaux=[], recDebut=0, recTimer=null;
-$('#k-rec').addEventListener('click', async ()=>{
+/* ---------- Enregistrements vocaux ---------- */
+let rec=null, flux=null, morceaux=[], recDebut=0, recTimer=null, recDepartMusique=0, priseEnAttente=null, urlAttente=null;
+const MAX_PRISE = 15*60;   // arrêt automatique après 15 minutes
+const fmtCourt = iso => new Date(iso).toLocaleDateString('fr-FR',{day:'numeric',month:'short'})+' à '+new Date(iso).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+const extAudio = type => type.includes('mp4') ? 'm4a' : (type.includes('ogg') ? 'ogg' : 'webm');
+const nomFichier = (nom,type) => (nom||'prise').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-zA-Z0-9]+/g,'-').replace(/^-|-$/g,'').toLowerCase().slice(0,60)+'.'+extAudio(type);
+const fmtMo = o => o < 1024*1024 ? Math.max(1,Math.round(o/1024))+' Ko' : (o/1024/1024).toFixed(1).replace('.',',')+' Mo';
+
+// Les fichiers créés par le micro n'indiquent pas toujours leur durée : on force le navigateur à la calculer
+function reparerDuree(a){
+  a.addEventListener('loadedmetadata', ()=>{
+    if(a.duration===Infinity || isNaN(a.duration)){
+      a.currentTime = 1e101;
+      a.addEventListener('timeupdate', function retour(){ a.removeEventListener('timeupdate', retour); a.currentTime = 0; });
+    }
+  }, {once:true});
+}
+function telecharger(blob, nom){
+  const url=URL.createObjectURL(blob), a=document.createElement('a');
+  a.href=url; a.download=nom; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 3000);
+}
+function boutonRec(enCours){
   const b=$('#k-rec');
-  if(rec && rec.state==='recording'){ rec.stop(); return; }
+  b.textContent = enCours ? '■ Arrêter l\'enregistrement' : '● Démarrer l\'enregistrement';
+  b.classList.toggle('btn-principal', enCours); b.classList.toggle('btn-ardoise', !enCours);
+}
+function messageMicro(err){
+  const n = err && err.name;
+  if(n==='NotAllowedError' || n==='SecurityError') return 'Micro refusé : autorisez-le dans les réglages de l\'application ou du navigateur.';
+  if(n==='NotFoundError' || n==='OverconstrainedError') return 'Aucun micro détecté sur cet appareil.';
+  if(n==='NotReadableError') return 'Le micro est déjà utilisé par une autre application.';
+  return 'Impossible d\'accéder au micro.';
+}
+async function demarrerPrise(){
   if(!navigator.mediaDevices || !window.MediaRecorder){ toast('Enregistrement non disponible sur cet appareil'); return; }
   try{ flux=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}}); }
-  catch(err){ toast('Micro refusé : autorisez-le dans les réglages du navigateur'); return; }
-  morceaux=[]; rec=new MediaRecorder(flux);
+  catch(err){ alert(messageMicro(err)); return; }
+  morceaux=[];
+  let options={};
+  for(const t of ['audio/webm;codecs=opus','audio/mp4','audio/ogg;codecs=opus']){ if(MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t)){ options={mimeType:t}; break; } }
+  try{ rec=new MediaRecorder(flux, options); }catch(e){ rec=new MediaRecorder(flux); }
   rec.ondataavailable=ev=>{ if(ev.data && ev.data.size) morceaux.push(ev.data); };
-  rec.onstop=()=>{
-    clearInterval(recTimer);
-    flux.getTracks().forEach(t=>t.stop());
-    if($('#k-avec').checked) audioK.pause();
-    const type=rec.mimeType || 'audio/webm';
-    const blob=new Blob(morceaux,{type});
-    const url=URL.createObjectURL(blob);
-    const d=new Date();
-    const ext=type.includes('mp4')?'m4a':(type.includes('ogg')?'ogg':'webm');
-    const nom='lovwane-'+jourCle(d)+'-'+pad(d.getHours())+'h'+pad(d.getMinutes())+'.'+ext;
-    const div=document.createElement('div'); div.className='enreg';
-    div.innerHTML='<b>Prise du '+d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})+'</b><audio controls src="'+url+'"></audio><a href="'+url+'" download="'+nom+'">⬇ Télécharger sur mon téléphone</a>';
-    $('#k-enregs').prepend(div);
-    b.textContent='● Démarrer l\'enregistrement'; b.classList.replace('btn-principal','btn-ardoise');
-    $('#k-rec-etat').textContent='';
-  };
-  rec.start();
-  if($('#k-avec').checked && audioK.src){ audioK.play().catch(()=>{}); }
+  rec.onstop=finPrise;
+  rec.start(1000);
+  if($('#k-avec').checked && audioK.src){ recDepartMusique=audioK.currentTime; audioK.play().catch(()=>{}); }
   recDebut=Date.now();
-  b.textContent='■ Arrêter l\'enregistrement'; b.classList.replace('btn-ardoise','btn-principal');
-  const majRec=()=>{ $('#k-rec-etat').innerHTML='<span class="point-rec"></span>Enregistrement… '+mmss(Math.floor((Date.now()-recDebut)/1000)); };
+  boutonRec(true);
+  const majRec=()=>{
+    const s=Math.floor((Date.now()-recDebut)/1000);
+    $('#k-rec-etat').innerHTML='<span class="point-rec"></span>Enregistrement… '+mmss(s);
+    if(s>=MAX_PRISE && rec && rec.state==='recording'){ rec.stop(); toast('Arrêt automatique après 15 minutes'); }
+  };
   majRec(); recTimer=setInterval(majRec,1000);
+}
+function finPrise(){
+  clearInterval(recTimer);
+  if(flux) flux.getTracks().forEach(t=>t.stop());
+  if($('#k-avec').checked) audioK.pause();
+  boutonRec(false); $('#k-rec-etat').textContent='';
+  const type=(rec && rec.mimeType) || 'audio/webm';
+  const blob=new Blob(morceaux,{type});
+  const duree=Math.max(1, Math.round((Date.now()-recDebut)/1000));
+  if(blob.size < 500){ toast('Prise trop courte, rien n\'a été enregistré'); return; }
+  const date=new Date().toISOString();
+  const base=(nomMusique ? nomMusique+' · ' : '')+'Prise du '+fmtCourt(date);
+  priseEnAttente={ blob, type, duree, date, nomDefaut:base };
+  afficherAttente();
+}
+function afficherAttente(){
+  const z=$('#k-attente');
+  if(urlAttente){ URL.revokeObjectURL(urlAttente); urlAttente=null; }
+  if(!priseEnAttente){ z.innerHTML=''; return; }
+  urlAttente=URL.createObjectURL(priseEnAttente.blob);
+  z.innerHTML='<div class="attente"><b>Nouvelle prise · '+mmss(priseEnAttente.duree)+'</b>'+
+    '<audio controls preload="metadata" src="'+urlAttente+'"></audio>'+
+    '<label class="doux" for="k-nom">Nom de la prise</label><input type="text" id="k-nom" maxlength="80">'+
+    '<div class="rangee"><button class="btn btn-principal" id="k-garder">💾 Garder</button><button class="btn btn-secondaire" id="k-refaire">↺ Refaire</button><button class="btn btn-discret" id="k-jeter">Supprimer</button></div></div>';
+  $('#k-nom').value=priseEnAttente.nomDefaut;
+  reparerDuree(z.querySelector('audio'));
+  $('#k-garder').addEventListener('click', garderPrise);
+  $('#k-refaire').addEventListener('click', ()=>{ priseEnAttente=null; afficherAttente(); if(audioK.src) audioK.currentTime=recDepartMusique; demarrerPrise(); });
+  $('#k-jeter').addEventListener('click', ()=>{ if(!confirm('Supprimer cette prise sans la garder ?')) return; priseEnAttente=null; afficherAttente(); });
+}
+async function garderPrise(){
+  const p=priseEnAttente; if(!p) return;
+  const nom=($('#k-nom').value.trim() || p.nomDefaut).slice(0,80);
+  const prise={ id:nouvelId(), date:p.date, nom, duree:p.duree, type:p.type, taille:p.blob.size, blob:p.blob, chanson:nomMusique||null, source:'karaoke' };
+  try{
+    await Stockage.ajouter('enregistrements', prise);
+    priseEnAttente=null; afficherAttente();
+    toast('Prise gardée 💾');
+    rendreEnregistrements();
+  }catch(e){
+    console.warn(e);
+    alert(Stockage.mode!=='indexeddb' ? 'Cet appareil ne permet pas de garder les prises. Vous pouvez la télécharger avec le menu ⋮ du lecteur.' : 'La prise n\'a pas pu être gardée : l\'espace de stockage est peut-être plein.');
+  }
+}
+$('#k-rec').addEventListener('click', ()=>{
+  if(rec && rec.state==='recording'){ rec.stop(); return; }
+  if(priseEnAttente && !confirm('La prise précédente n\'a pas été gardée. La remplacer par une nouvelle ?')) return;
+  priseEnAttente=null; afficherAttente();
+  demarrerPrise();
 });
+
+/* ---------- Mes enregistrements : liste ---------- */
+let prises=[], urlsListe=[], selection=[];
+async function rendreEnregistrements(){
+  urlsListe.forEach(u=>URL.revokeObjectURL(u)); urlsListe=[];
+  try{ prises=(await Stockage.lireCollection('enregistrements')).sort((a,b)=>new Date(b.date)-new Date(a.date)); }catch(e){ prises=[]; }
+  selection=selection.filter(id=>prises.some(p=>p.id===id));
+  const total=prises.reduce((s,p)=>s+(p.taille||0),0);
+  $('#k-resume').textContent = prises.length
+    ? prises.length+' prise'+(prises.length>1?'s':'')+' · '+fmtMo(total)+(prises.length>1?' · cochez deux prises pour les comparer':'')
+    : (Stockage.mode==='indexeddb' ? 'Aucune prise gardée pour le moment. Enregistrez-vous puis touchez « Garder ».' : 'Cet appareil ne permet pas de garder les prises.');
+  $('#k-liste').innerHTML = prises.map(p=>{
+    const url=URL.createObjectURL(p.blob); urlsListe.push(url);
+    return '<li class="prise" data-id="'+p.id+'">'+
+      '<div class="prise-tete">'+(prises.length>1?'<input type="checkbox" class="prise-comp" aria-label="Comparer"'+(selection.includes(p.id)?' checked':'')+'>':'')+
+      '<div class="prise-info"><b>'+echapper(p.nom)+'</b><small>'+fmtCourt(p.date)+' · '+mmss(p.duree)+' · '+fmtMo(p.taille||0)+'</small></div></div>'+
+      '<audio controls preload="metadata" src="'+url+'"></audio>'+
+      '<div class="prise-actions"><button data-act="renommer">✏️ Renommer</button><button data-act="telecharger">⬇ Télécharger</button><button data-act="supprimer">🗑 Supprimer</button></div></li>';
+  }).join('');
+  $$('#k-liste audio').forEach(reparerDuree);
+  majComparaison();
+}
+// Une seule lecture à la fois
+document.addEventListener('play', e=>{ $$('#k-liste audio, #k-attente audio').forEach(a=>{ if(a!==e.target) a.pause(); }); if(e.target!==audioK && e.target.closest && e.target.closest('#k-liste,#k-attente')) arreterComparaison(); }, true);
+
+$('#k-liste').addEventListener('click', async e=>{
+  const b=e.target.closest('[data-act]'); if(!b) return;
+  const p=prises.find(x=>x.id===b.closest('.prise').dataset.id); if(!p) return;
+  if(b.dataset.act==='renommer'){
+    const nom=prompt('Nouveau nom de la prise :', p.nom);
+    if(nom===null || !nom.trim()) return;
+    p.nom=nom.trim().slice(0,80);
+    await Stockage.ajouter('enregistrements', p); toast('Prise renommée'); rendreEnregistrements();
+  }
+  if(b.dataset.act==='telecharger') telecharger(p.blob, nomFichier(p.nom, p.type||'audio/webm'));
+  if(b.dataset.act==='supprimer'){
+    if(!confirm('Supprimer définitivement « '+p.nom+' » ?')) return;
+    await Stockage.supprimer('enregistrements', p.id); toast('Prise supprimée'); rendreEnregistrements();
+  }
+});
+$('#k-liste').addEventListener('change', e=>{
+  if(!e.target.classList.contains('prise-comp')) return;
+  const id=e.target.closest('.prise').dataset.id;
+  if(e.target.checked){ selection.push(id); if(selection.length>2) selection.shift(); }
+  else selection=selection.filter(x=>x!==id);
+  $$('#k-liste .prise').forEach(li=>{ const c=li.querySelector('.prise-comp'); if(c) c.checked=selection.includes(li.dataset.id); });
+  majComparaison();
+});
+
+/* ---------- Comparer deux prises (bascule A/B à la même position) ---------- */
+const compA=new Audio(), compB=new Audio();
+let compActif='a', compUrls=[], compIds='', compDuree=0, compRaf=null, compGlisse=false;
+function arreterComparaison(){ compA.pause(); compB.pause(); cancelAnimationFrame(compRaf); $('#comp-lecture').textContent='▶ Écouter'; }
+function majComparaison(){
+  const z=$('#k-comp');
+  if(selection.length!==2){ arreterComparaison(); z.classList.add('cache'); compIds=''; return; }
+  // A = la plus ancienne, B = la plus récente
+  const [pa,pb]=selection.map(id=>prises.find(p=>p.id===id)).sort((x,y)=>new Date(x.date)-new Date(y.date));
+  z.classList.remove('cache');
+  const ids=pa.id+'|'+pb.id;
+  $('#comp-a').innerHTML='<span class="comp-lettre">A</span><b>'+echapper(pa.nom)+'</b><small>'+fmtCourt(pa.date)+' · '+mmss(pa.duree)+'</small>';
+  $('#comp-b').innerHTML='<span class="comp-lettre">B</span><b>'+echapper(pb.nom)+'</b><small>'+fmtCourt(pb.date)+' · '+mmss(pb.duree)+'</small>';
+  if(ids===compIds) return;
+  compIds=ids; arreterComparaison();
+  compUrls.forEach(u=>URL.revokeObjectURL(u));
+  compUrls=[URL.createObjectURL(pa.blob), URL.createObjectURL(pb.blob)];
+  compA.src=compUrls[0]; compB.src=compUrls[1]; reparerDuree(compA); reparerDuree(compB);
+  compDuree=Math.max(pa.duree,pb.duree);
+  $('#comp-total').textContent=mmss(compDuree);
+  choisirCote('a', false); $('#comp-pos').value=0; $('#comp-temps').textContent='0:00';
+}
+const lecteur = c => c==='a' ? compA : compB;
+function choisirCote(c, garderPosition){
+  const ancien=lecteur(compActif), nouveau=lecteur(c), jouait=!ancien.paused;
+  if(garderPosition && c!==compActif){ const t=ancien.currentTime; ancien.pause(); try{ nouveau.currentTime=t; }catch(e){} if(jouait) nouveau.play().catch(()=>{}); }
+  compActif=c;
+  $('#comp-a').classList.toggle('actif', c==='a'); $('#comp-b').classList.toggle('actif', c==='b');
+  $('#comp-bascule').textContent='⇄ Passer à '+(c==='a'?'B':'A');
+}
+function suiviComparaison(){
+  const a=lecteur(compActif);
+  if(!compGlisse){ $('#comp-pos').value=Math.round(Math.min(1, a.currentTime/(compDuree||1))*1000); $('#comp-temps').textContent=mmss(Math.floor(a.currentTime)); }
+  if(!a.paused) compRaf=requestAnimationFrame(suiviComparaison);
+}
+[compA,compB].forEach(a=>a.addEventListener('ended', ()=>{ if(a===lecteur(compActif)) arreterComparaison(); }));
+$('#comp-lecture').addEventListener('click', ()=>{
+  const a=lecteur(compActif);
+  if(a.paused){ $$('#k-liste audio, #k-attente audio').forEach(x=>x.pause()); audioK.pause(); a.play().then(()=>{ $('#comp-lecture').textContent='⏸ Pause'; suiviComparaison(); }).catch(()=>{}); }
+  else arreterComparaison();
+});
+$('#comp-bascule').addEventListener('click', ()=>{ choisirCote(compActif==='a'?'b':'a', true); });
+$$('.comp-col').forEach(c=>c.addEventListener('click', ()=>choisirCote(c.dataset.cote, true)));
+$('#comp-pos').addEventListener('input', e=>{ compGlisse=true; $('#comp-temps').textContent=mmss(Math.floor(e.target.value/1000*compDuree)); });
+$('#comp-pos').addEventListener('change', e=>{ compGlisse=false; const t=e.target.value/1000*compDuree; [compA,compB].forEach(a=>{ try{ a.currentTime=Math.min(t, Math.max(0,(a.duration&&isFinite(a.duration)?a.duration:t)-0.05)); }catch(err){} }); });
 
 /* ---------- Statistiques ---------- */
 function serieJours(){
@@ -1322,6 +1537,8 @@ const _montrerVue=montrerVue; montrerVue=function(id){ _montrerVue(id); ajusterT
 const fmtDateHeure = iso => new Date(iso).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})+' à '+new Date(iso).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
 async function rendreParametres(){
   $('.reglages').classList.add('active');
+  const lesPrises = await Stockage.lireCollection('enregistrements').catch(()=>[]);
+  const nbPrises = lesPrises.length, taillePrises = lesPrises.reduce((s,p)=>s+(p.taille||0),0);
   const est = await Stockage.estimation();
   const pers = await Stockage.persistant();
   const ligne = (a,b) => '<li><span>'+a+'</span><span>'+b+'</span></li>';
@@ -1329,6 +1546,7 @@ async function rendreParametres(){
     ligne('Séances d\'échauffement', donnees.seances.length) +
     ligne('Notes de journal', donnees.journal.length) +
     ligne('Mesures de notes tenues', donnees.tenues.length) +
+    ligne('Enregistrements', nbPrises ? nbPrises+' · '+fmtMo(taillePrises) : '0') +
     ligne('Stockage', Stockage.mode==='indexeddb' ? 'Base de l\'appareil' : 'Mode de secours') +
     ligne('Stockage protégé', pers ? 'Oui' : 'Pas encore') +
     (est && est.usage!=null ? ligne('Espace utilisé', (est.usage/1024/1024).toFixed(1).replace('.',',')+' Mo') : '');
@@ -1388,7 +1606,7 @@ $('#pa-fichier').addEventListener('change', async e=>{
 });
 
 $('#pa-supprimer').addEventListener('click', async ()=>{
-  if(!confirm('Supprimer toutes vos données de ce téléphone ?\n\nSéances, journal, mesures et préférences seront effacés.')) return;
+  if(!confirm('Supprimer toutes vos données de ce téléphone ?\n\nSéances, journal, mesures, enregistrements et préférences seront effacés.')) return;
   if(!confirm('Dernière vérification : cette action est définitive. Pensez à télécharger une sauvegarde avant si vous voulez les garder.\n\nSupprimer définitivement ?')) return;
   await fileEcriture;
   await Stockage.toutEffacer();
@@ -1396,6 +1614,7 @@ $('#pa-supprimer').addEventListener('click', async ()=>{
   donnees = { seances:[], journal:[], tenues:[], prefs:null };
   prefs = Object.assign({}, PREFS_DEFAUT);
   majPuces(); majChronoInfos();
+  selection=[]; rendreEnregistrements();
   toast('Toutes vos données ont été supprimées');
   rendreParametres();
 });
