@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#6f6480">
+<meta name="theme-color" content="#faf7f1">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Lovwane Studio</title>
@@ -223,6 +223,21 @@ label.case input{accent-color:var(--mauve);width:18px;height:18px}
 @keyframes bv-onde{0%,100%{transform:scaleY(.5)}50%{transform:scaleY(1.15)}}
 @media (prefers-reduced-motion:reduce){#bienvenue,#bienvenue *{animation-duration:.01s !important;animation-delay:0s !important}}
 
+/* En-tête : bouton Paramètres */
+.reglages{margin-left:auto;width:40px;height:40px;border:none;background:none;border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--ardoise-clair);cursor:pointer}
+.reglages svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.reglages:active,.reglages.active{background:var(--mauve-voile);color:var(--mauve-fonce)}
+
+/* Paramètres */
+.confiance{background:var(--ardoise-voile);border-radius:12px;padding:12px 14px;font-size:.92rem;color:var(--ardoise)}
+.infos{list-style:none;margin-top:12px}
+.infos li{display:flex;justify-content:space-between;gap:12px;padding:10px 2px;border-bottom:1px solid var(--ivoire-fonce);font-size:.93rem}
+.infos li:last-child{border-bottom:none}
+.infos li span:first-child{color:var(--texte-doux)}
+.infos li span:last-child{font-weight:600;color:var(--ardoise);text-align:right}
+.pa-derniere{margin:10px 0 14px}
+.btn-danger{background:#f7e4e8;color:#9b3d4f}
+
 /* Message temporaire */
 .toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ardoise);color:#fff;padding:10px 18px;border-radius:999px;font-size:.9rem;z-index:30;opacity:0;transition:opacity .3s;pointer-events:none;max-width:90%;text-align:center}
 .toast.visible{opacity:1}
@@ -240,6 +255,9 @@ label.case input{accent-color:var(--mauve);width:18px;height:18px}
 <header class="entete">
   <img src="icon.svg" alt="">
   <div class="marque">Lovwane <span>Studio</span></div>
+  <button class="reglages" data-aller="parametres" aria-label="Paramètres">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+  </button>
 </header>
 
 <main>
@@ -539,6 +557,39 @@ label.case input{accent-color:var(--mauve);width:18px;height:18px}
   </div>
 </section>
 
+<!-- ============ PARAMÈTRES ============ -->
+<section class="page" id="parametres">
+  <h1 class="titre-page">Paramètres</h1>
+  <p class="sous-titre">Vos données et votre application.</p>
+
+  <div class="carte section">
+    <h2 class="section-titre">Mes données</h2>
+    <p class="confiance">🔒 Toutes vos données restent sur ce téléphone. Rien n'est envoyé sur Internet.</p>
+    <ul class="infos" id="pa-infos"></ul>
+  </div>
+
+  <div class="carte section">
+    <h2 class="section-titre">Sauvegarder</h2>
+    <p class="doux">Téléchargez un fichier de sauvegarde et gardez-le en lieu sûr (Google Drive, e-mail…). Il permet de tout retrouver si vous changez de téléphone ou si le navigateur efface ses données.</p>
+    <p class="doux pa-derniere" id="pa-derniere"></p>
+    <button class="btn btn-principal btn-large" id="pa-exporter">⬇ Télécharger ma sauvegarde</button>
+  </div>
+
+  <div class="carte section">
+    <h2 class="section-titre">Restaurer</h2>
+    <p class="doux">Choisissez un fichier de sauvegarde Lovwane Studio. Vos données actuelles seront remplacées par celles du fichier.</p>
+    <input type="file" id="pa-fichier" accept="application/json,.json" style="margin-top:12px">
+  </div>
+
+  <div class="carte section">
+    <h2 class="section-titre">Supprimer mes données</h2>
+    <p class="doux">Efface définitivement de ce téléphone vos séances, votre journal, vos mesures et vos préférences.</p>
+    <button class="btn btn-danger btn-large" id="pa-supprimer" style="margin-top:12px">Supprimer toutes mes données</button>
+  </div>
+
+  <p class="doux" style="text-align:center;margin:8px 0 20px" id="pa-version"></p>
+</section>
+
 </main>
 
 <nav class="barre">
@@ -562,15 +613,92 @@ const mmss = s => Math.floor(s/60)+':'+pad(Math.max(0,s%60));
 let toastTimer = null;
 function toast(txt){ const t=$('#toast'); t.textContent=txt; t.classList.add('visible'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('visible'),2600); }
 
-/* ---------- Sauvegarde ---------- */
-const CLE = 'lovwane-studio-v2';
+/* ---------- Stockage des données (module isolé) ----------
+   Toutes les lectures et écritures passent par ce module.
+   Pour ajouter plus tard une synchronisation en ligne, seul ce module devra évoluer. */
+const APP_VERSION = '2.1';
+const Stockage = (()=>{
+  const NOM='lovwane-studio', VERSION=1;
+  const MAGASINS=['etat','seances','journal','tenues','enregistrements','analyses','bilans','chansons'];
+  const CLE_LS='lovwane-studio-v2';
+  let db=null, mode='indexeddb';
+  function ouvrir(){
+    return new Promise((ok,ko)=>{
+      if(!('indexedDB' in window)) return ko(new Error('IndexedDB indisponible'));
+      const req=indexedDB.open(NOM,VERSION);
+      req.onupgradeneeded=()=>{ const d=req.result; MAGASINS.forEach(m=>{ if(!d.objectStoreNames.contains(m)) d.createObjectStore(m,{keyPath:'id'}); }); };
+      req.onsuccess=()=>ok(req.result);
+      req.onerror=()=>ko(req.error);
+      req.onblocked=()=>ko(new Error('Base bloquée'));
+    });
+  }
+  function transaction(magasins, type, travail){
+    return new Promise((ok,ko)=>{
+      const t=db.transaction(magasins,type); let resultat;
+      t.oncomplete=()=>ok(resultat); t.onerror=()=>ko(t.error); t.onabort=()=>ko(t.error);
+      resultat=travail(t);
+    });
+  }
+  function requete(r){ return new Promise((ok,ko)=>{ r.onsuccess=()=>ok(r.result); r.onerror=()=>ko(r.error); }); }
+  async function init(){
+    try{ db=await ouvrir(); }catch(e){ mode='local'; console.warn('Stockage de secours :', e); }
+    try{ if(navigator.storage && navigator.storage.persist && !(await navigator.storage.persisted())) await navigator.storage.persist(); }catch(e){}
+    return mode;
+  }
+  async function lireCollection(m){ if(mode!=='indexeddb') return []; return (await requete(db.transaction(m).objectStore(m).getAll()))||[]; }
+  async function remplacer(m, liste){ if(mode!=='indexeddb') return; await transaction([m],'readwrite',t=>{ const st=t.objectStore(m); st.clear(); liste.forEach(x=>st.put(x)); }); }
+  async function lireEtat(cle){ if(mode!=='indexeddb') return null; const r=await requete(db.transaction('etat').objectStore('etat').get(cle)); return r ? r.valeur : null; }
+  async function ecrireEtat(cle,valeur){ if(mode!=='indexeddb') return; await transaction(['etat'],'readwrite',t=>{ t.objectStore('etat').put({id:cle, valeur}); }); }
+  async function toutEffacer(){
+    if(mode==='indexeddb') await transaction(MAGASINS,'readwrite',t=>{ MAGASINS.forEach(m=>t.objectStore(m).clear()); });
+    try{ localStorage.removeItem(CLE_LS); }catch(e){}
+  }
+  function lireAncien(){ try{ const t=localStorage.getItem(CLE_LS); return t ? JSON.parse(t) : null; }catch(e){ return null; } }
+  function ecrireAncien(d){ try{ localStorage.setItem(CLE_LS, JSON.stringify(d)); }catch(e){} }
+  async function estimation(){ try{ return await navigator.storage.estimate(); }catch(e){ return null; } }
+  async function persistant(){ try{ return await navigator.storage.persisted(); }catch(e){ return false; } }
+  return { init, lireCollection, remplacer, lireEtat, ecrireEtat, toutEffacer, lireAncien, ecrireAncien, estimation, persistant, get mode(){ return mode; } };
+})();
+
+/* ---------- Données de l'application ---------- */
+const COLLECTIONS = ['seances','journal','tenues'];
 let donnees = { seances:[], journal:[], tenues:[], prefs:null };
-function charger(){ try{ const t=localStorage.getItem(CLE); if(t){ const d=JSON.parse(t); donnees=Object.assign(donnees,d); } }catch(e){} }
-function sauver(){ try{ localStorage.setItem(CLE, JSON.stringify(donnees)); }catch(e){} }
-charger();
+const nouvelId = () => (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : Date.now().toString(36)+Math.random().toString(36).slice(2,10);
+const parDate = (a,b) => new Date(a.date) - new Date(b.date);
+function avecIds(liste){ return (Array.isArray(liste)?liste:[]).filter(x=>x && typeof x==='object').map(x=>x.id ? x : Object.assign({}, x, {id:nouvelId()})); }
+
+async function ecrireTout(){
+  for(const c of COLLECTIONS) await Stockage.remplacer(c, donnees[c]);
+  await Stockage.ecrireEtat('prefs', donnees.prefs);
+}
+async function chargerDonnees(){
+  await Stockage.init();
+  if(Stockage.mode==='indexeddb'){
+    const migration = await Stockage.lireEtat('migration');
+    if(!migration){
+      // Première ouverture de cette version : on reprend les données de l'ancienne version
+      const ancien = Stockage.lireAncien();
+      if(ancien){ COLLECTIONS.forEach(c=>donnees[c]=avecIds(ancien[c]).sort(parDate)); donnees.prefs = ancien.prefs || null; await ecrireTout(); }
+      await Stockage.ecrireEtat('migration', { date:new Date().toISOString(), depuis: ancien ? 'ancienne version' : 'aucune donnée' });
+    } else {
+      for(const c of COLLECTIONS) donnees[c] = (await Stockage.lireCollection(c)).sort(parDate);
+      donnees.prefs = await Stockage.lireEtat('prefs');
+    }
+  } else {
+    const ancien = Stockage.lireAncien();
+    if(ancien){ COLLECTIONS.forEach(c=>donnees[c]=avecIds(ancien[c]).sort(parDate)); donnees.prefs = ancien.prefs || null; }
+  }
+}
+let fileEcriture = Promise.resolve();
+function sauver(){
+  COLLECTIONS.forEach(c=>donnees[c]=avecIds(donnees[c]));
+  Stockage.ecrireAncien(donnees);   // copie de secours sur l'appareil
+  fileEcriture = fileEcriture.then(ecrireTout).catch(e=>{ console.warn(e); toast("Attention : l'enregistrement des données a échoué"); });
+  return fileEcriture;
+}
 
 /* ---------- Navigation ---------- */
-const PAGES = ['accueil','echauffement','exercices','karaoke','suivi'];
+const PAGES = ['accueil','echauffement','exercices','karaoke','suivi','parametres'];
 function afficher(id){
   if(!PAGES.includes(id)) id='accueil';
   $$('.page').forEach(p => p.classList.toggle('active', p.id===id));
@@ -578,6 +706,7 @@ function afficher(id){
   window.scrollTo(0,0);
   if(id==='accueil') rendreAccueil();
   if(id==='suivi') rendreSuivi();
+  if(id==='parametres') rendreParametres();
 }
 function aller(id){ if(location.hash !== '#'+id) location.hash = id; else afficher(id); }
 window.addEventListener('hashchange', () => afficher(location.hash.slice(1)));
@@ -771,7 +900,8 @@ const LIBELLES = {
   mode:{ecrit:'instructions écrites',demo:'démonstrations sonores',piano:'accompagnement au piano'},
   objectif:{complet:'échauffement complet',aigus:'aigus',tete:'voix de tête',transitions:'transitions',souffle:'souffle'}
 };
-let prefs = Object.assign({duree:10,style:'progressif',etat:'normale',mode:'piano',objectif:'complet'}, donnees.prefs || {});
+const PREFS_DEFAUT = {duree:10,style:'progressif',etat:'normale',mode:'piano',objectif:'complet'};
+let prefs = Object.assign({}, PREFS_DEFAUT);
 
 function majPuces(){
   $$('#ech-config .puces').forEach(gr=>{
@@ -1188,9 +1318,96 @@ const _montrerVue=montrerVue; montrerVue=function(id){ _montrerVue(id); ajusterT
   bv.addEventListener('click', fermer);   // un toucher permet de passer
 })();
 
+/* ---------- Paramètres : sauvegarde, restauration, suppression ---------- */
+const fmtDateHeure = iso => new Date(iso).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})+' à '+new Date(iso).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+async function rendreParametres(){
+  $('.reglages').classList.add('active');
+  const est = await Stockage.estimation();
+  const pers = await Stockage.persistant();
+  const ligne = (a,b) => '<li><span>'+a+'</span><span>'+b+'</span></li>';
+  $('#pa-infos').innerHTML =
+    ligne('Séances d\'échauffement', donnees.seances.length) +
+    ligne('Notes de journal', donnees.journal.length) +
+    ligne('Mesures de notes tenues', donnees.tenues.length) +
+    ligne('Stockage', Stockage.mode==='indexeddb' ? 'Base de l\'appareil' : 'Mode de secours') +
+    ligne('Stockage protégé', pers ? 'Oui' : 'Pas encore') +
+    (est && est.usage!=null ? ligne('Espace utilisé', (est.usage/1024/1024).toFixed(1).replace('.',',')+' Mo') : '');
+  const derniere = await Stockage.lireEtat('derniereSauvegarde');
+  $('#pa-derniere').innerHTML = derniere ? 'Dernière sauvegarde : <b>'+fmtDateHeure(derniere)+'</b>' : 'Aucune sauvegarde pour le moment.';
+  $('#pa-version').textContent = 'Lovwane Studio · version '+APP_VERSION;
+}
+window.addEventListener('hashchange', ()=>{ if(location.hash!=='#parametres') $('.reglages').classList.remove('active'); });
+
+$('#pa-exporter').addEventListener('click', async ()=>{
+  const contenu = { application:'Lovwane Studio', format:1, version:APP_VERSION, exporteLe:new Date().toISOString(),
+    donnees:{ seances:donnees.seances, journal:donnees.journal, tenues:donnees.tenues, prefs:donnees.prefs } };
+  const blob = new Blob([JSON.stringify(contenu,null,2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download='lovwane-sauvegarde-'+jourCle(new Date())+'.json';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 3000);
+  await Stockage.ecrireEtat('derniereSauvegarde', new Date().toISOString());
+  toast('Sauvegarde téléchargée 💾');
+  rendreParametres();
+});
+
+function validerSauvegarde(obj){
+  if(!obj || obj.application!=='Lovwane Studio' || typeof obj.donnees!=='object' || !obj.donnees) throw new Error("Ce fichier n'est pas une sauvegarde Lovwane Studio.");
+  const d = obj.donnees, estDate = v => typeof v==='string' && !isNaN(Date.parse(v)), liste = v => Array.isArray(v) ? v : [];
+  const id = v => (typeof v==='string' && v.length<=64) ? v : nouvelId();
+  const seances = liste(d.seances).filter(x=>x && estDate(x.date) && Number.isFinite(x.minutes)).map(x=>({
+    id:id(x.id), date:x.date, minutes:Math.max(0,Math.min(600,Math.round(x.minutes))),
+    objectif: LIBELLES.objectif[x.objectif] ? x.objectif : 'complet', etat: LIBELLES.etat[x.etat] ? x.etat : 'normale',
+    style: LIBELLES.style[x.style] ? x.style : 'progressif', complete: !!x.complete }));
+  const journal = liste(d.journal).filter(x=>x && estDate(x.date)).map(x=>({
+    id:id(x.id), date:x.date, ressenti: [1,2,3,4,5].includes(x.ressenti) ? x.ressenti : null, texte: typeof x.texte==='string' ? x.texte.slice(0,5000) : '' }));
+  const tenues = liste(d.tenues).filter(x=>x && estDate(x.date) && Number.isFinite(x.sec) && x.sec>0 && x.sec<600).map(x=>({ id:id(x.id), date:x.date, sec:Math.round(x.sec*10)/10 }));
+  let prefsOk = null;
+  if(d.prefs && typeof d.prefs==='object'){
+    const p=d.prefs;
+    prefsOk = { duree:[5,10,15,20].includes(p.duree)?p.duree:10, style:LIBELLES.style[p.style]?p.style:'progressif', etat:LIBELLES.etat[p.etat]?p.etat:'normale', mode:LIBELLES.mode[p.mode]?p.mode:'piano', objectif:LIBELLES.objectif[p.objectif]?p.objectif:'complet' };
+  }
+  return { seances:seances.sort(parDate), journal:journal.sort(parDate), tenues:tenues.sort(parDate), prefs:prefsOk, date:estDate(obj.exporteLe)?obj.exporteLe:null };
+}
+$('#pa-fichier').addEventListener('change', async e=>{
+  const f = e.target.files[0]; e.target.value=''; if(!f) return;
+  try{
+    if(f.size > 20*1024*1024) throw new Error('Ce fichier est trop volumineux.');
+    const r = validerSauvegarde(JSON.parse(await f.text()));
+    const quand = r.date ? ' du '+fmtDateHeure(r.date) : '';
+    if(!confirm('Restaurer la sauvegarde'+quand+' ?\n\nElle contient '+r.seances.length+' séance(s), '+r.journal.length+' note(s) de journal et '+r.tenues.length+' mesure(s).\n\nVos données actuelles seront remplacées.')) return;
+    donnees = { seances:r.seances, journal:r.journal, tenues:r.tenues, prefs:r.prefs };
+    prefs = Object.assign({}, PREFS_DEFAUT, donnees.prefs || {});
+    await sauver();
+    majPuces(); majChronoInfos();
+    toast('Sauvegarde restaurée ✅');
+    rendreParametres();
+  }catch(err){
+    alert(err instanceof SyntaxError ? "Ce fichier est illisible : ce n'est pas une sauvegarde Lovwane Studio." : err.message);
+  }
+});
+
+$('#pa-supprimer').addEventListener('click', async ()=>{
+  if(!confirm('Supprimer toutes vos données de ce téléphone ?\n\nSéances, journal, mesures et préférences seront effacés.')) return;
+  if(!confirm('Dernière vérification : cette action est définitive. Pensez à télécharger une sauvegarde avant si vous voulez les garder.\n\nSupprimer définitivement ?')) return;
+  await fileEcriture;
+  await Stockage.toutEffacer();
+  await Stockage.ecrireEtat('migration', { date:new Date().toISOString(), depuis:'suppression' });
+  donnees = { seances:[], journal:[], tenues:[], prefs:null };
+  prefs = Object.assign({}, PREFS_DEFAUT);
+  majPuces(); majChronoInfos();
+  toast('Toutes vos données ont été supprimées');
+  rendreParametres();
+});
+
 /* ---------- Démarrage ---------- */
-majPuces();
-afficher(location.hash.slice(1) || 'accueil');
+(async ()=>{
+  try{ await chargerDonnees(); }catch(e){ console.warn(e); toast('Impossible de charger vos données'); }
+  prefs = Object.assign({}, PREFS_DEFAUT, donnees.prefs || {});
+  majPuces();
+  majChronoInfos();
+  afficher(location.hash.slice(1) || 'accueil');
+})();
 
 if('serviceWorker' in navigator){
   window.addEventListener('load', ()=>{
