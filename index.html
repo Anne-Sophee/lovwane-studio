@@ -11,7 +11,7 @@
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <style>
 :root{
-  --mauve:#7a6a88; --mauve-dark:#5e5070; --mauve-fonce:#7b3f81; --mauve-clair:#d6cce0; --mauve-voile:#eee9f3;
+  --mauve:#7a6a88; --mauve-fonce:#5e5070; --mauve-clair:#d6cce0; --mauve-voile:#eee9f3;
   --ardoise:#4b5b6f; --ardoise-clair:#8a98aa; --ardoise-voile:#e7ebf0;
   --ivoire:#faf7f1; --ivoire-fonce:#efe9df; --blanc:#fffdf9;
   --rose:#e3b3bd; --rose-voile:#fbf0f2;
@@ -23,6 +23,8 @@
 html,body{background:var(--ivoire);color:var(--texte)}
 body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.5;min-height:100vh;padding-bottom:calc(86px + env(safe-area-inset-bottom))}
 h1,h2,h3{font-family:"Noto Serif",Georgia,"Times New Roman",serif;font-weight:600;color:var(--ardoise);line-height:1.25}
+h2{color:#7b3f81}
+h1{white-space:nowrap;overflow:hidden}
 button{font-family:inherit}
 
 /* En-tête */
@@ -82,7 +84,7 @@ nav.barre{position:fixed;bottom:0;left:0;right:0;background:var(--blanc);border-
 
 /* Statistiques (Suivi) */
 .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.stat{background:var(--ardoise-voile);border-radius:14px;padding:12px;text-align:center}
+.stat{background:#ede6d9;border-radius:14px;padding:12px;text-align:center}
 .stat b{display:block;font-size:1.4rem;color:var(--ardoise);font-family:"Noto Serif",Georgia,serif}
 .stat small{color:var(--texte-doux);font-size:.8rem}
 
@@ -93,14 +95,14 @@ nav.barre{position:fixed;bottom:0;left:0;right:0;background:var(--blanc);border-
 .hero-accueil::before{width:220px;height:220px;right:-70px;top:-80px}
 .hero-accueil::after{width:140px;height:140px;right:-30px;top:-40px;border-color:rgba(227,179,189,.35)}
 .hero-accueil .salut{font-size:.85rem;letter-spacing:.14em;text-transform:uppercase;opacity:.75;margin-bottom:6px}
-.hero-accueil h1{font-size:1.9rem;margin-bottom:4px}
+.hero-accueil h1{font-size:clamp(1.15rem, calc((100vw - 80px) / 10.6), 2.4rem);margin-bottom:4px}
 .hero-accueil .btn{margin-top:24px;width:100%;white-space:nowrap;padding:14px 16px}
 .carte.section{margin-bottom:22px;padding:20px 18px 18px}
 .carte.section .section-titre{font-size:1.25rem;margin:0 0 16px;padding-bottom:12px;border-bottom:1px solid var(--ivoire-fonce)}
 .carte.section .citation{margin:0}
-.carte.section .tuile{background:var(--ivoire);box-shadow:none;border:1px solid var(--ivoire-fonce)}
+.carte.section .tuile{background:#e8deeb6e;box-shadow:none;border:1px solid var(--ivoire-fonce)}
 .carte.section .objectif{background:var(--ivoire);border:1px solid var(--ivoire-fonce)}
-.section-titre{font-family:Georgia,"Times New Roman",serif;font-size:1.25rem;font-weight:600;line-height:1.25;letter-spacing:normal;text-transform:none;color:var(--mauve-fonce);margin:0 4px 14px}
+.section-titre{font-family:Georgia,"Times New Roman",serif;font-size:1.25rem;font-weight:600;line-height:1.25;letter-spacing:normal;text-transform:none;color:#7b3f81;margin:0 4px 14px}
 .citation{border-left:3px solid var(--rose);padding:2px 0 2px 18px;margin:0 4px;font-family:"Noto Serif",Georgia,serif;font-style:italic;font-size:1.06rem;line-height:1.65;color:var(--ardoise)}
 .semaine{display:flex;background:var(--blanc);border-radius:var(--rayon);box-shadow:var(--ombre);padding:22px 6px;border:1px solid rgba(122,106,136,.08)}
 .semaine>div{flex:1;text-align:center;padding:0 6px}
@@ -123,7 +125,7 @@ nav.barre{position:fixed;bottom:0;left:0;right:0;background:var(--blanc);border-
 .objectif{display:flex;align-items:center;gap:14px;padding:16px 18px;background:var(--blanc);border-radius:16px;border:1px solid rgba(122,106,136,.1)}
 .objectif .vignette{flex:none;width:52px;height:52px;border-radius:12px;box-shadow:0 3px 10px rgba(60,55,80,.15)}
 .grille{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.tuile{background:var(--blanc);border-radius:16px;padding:16px;box-shadow:var(--ombre);border:1px solid rgba(122,106,136,.08);text-align:left;cursor:pointer;color:var(--texte);font-size:1rem}
+.tuile{background:#e8deeb6e;border-radius:16px;padding:16px;box-shadow:var(--ombre);border:1px solid rgba(122,106,136,.08);text-align:left;cursor:pointer;color:var(--texte);font-size:1rem}
 .tuile:active{background:var(--mauve-voile)}
 .tuile .ico{font-size:1.5rem}
 .tuile b{display:block;margin-top:6px;color:var(--ardoise)}
@@ -200,12 +202,37 @@ label.case input{accent-color:var(--mauve);width:18px;height:18px}
 .histo .contenu small{display:block;color:var(--texte-doux)}
 .histo .suppr{background:none;border:none;color:var(--ardoise-clair);font-size:1rem;cursor:pointer;padding:4px}
 
+/* Écran de bienvenue */
+#bienvenue{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:24px;text-align:center;
+  background:radial-gradient(circle at 50% 38%,#fffdf9 0%,var(--ivoire) 55%,var(--mauve-voile) 100%);
+  animation:bv-entree .9s ease forwards;cursor:pointer}
+#bienvenue.sortie{animation:bv-sortie .8s ease forwards}
+#bienvenue img{width:104px;height:104px;border-radius:26px;box-shadow:0 12px 32px rgba(75,91,111,.25);animation:bv-logo 1.2s ease both}
+#bienvenue h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(1.1rem, 6.2vw, 2rem);color:#7b3f81;white-space:normal;overflow:visible;animation:bv-texte 1.1s .35s ease both}
+#bienvenue p{color:var(--ardoise-clair);font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;animation:bv-texte 1.1s .6s ease both}
+.bv-onde{display:flex;gap:5px;align-items:center;height:26px;animation:bv-texte 1s .8s ease both}
+.bv-onde span{width:4px;border-radius:2px;background:var(--mauve-clair);animation:bv-onde 1.1s ease-in-out infinite}
+.bv-onde span:nth-child(1){height:8px}.bv-onde span:nth-child(2){height:16px;animation-delay:.12s}.bv-onde span:nth-child(3){height:24px;animation-delay:.24s;background:var(--rose)}.bv-onde span:nth-child(4){height:16px;animation-delay:.36s}.bv-onde span:nth-child(5){height:8px;animation-delay:.48s}
+@keyframes bv-entree{from{opacity:0}to{opacity:1}}
+@keyframes bv-sortie{from{opacity:1}to{opacity:0;visibility:hidden}}
+@keyframes bv-logo{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:none}}
+@keyframes bv-texte{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes bv-onde{0%,100%{transform:scaleY(.5)}50%{transform:scaleY(1.15)}}
+@media (prefers-reduced-motion:reduce){#bienvenue,#bienvenue *{animation-duration:.01s !important;animation-delay:0s !important}}
+
 /* Message temporaire */
 .toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ardoise);color:#fff;padding:10px 18px;border-radius:999px;font-size:.9rem;z-index:30;opacity:0;transition:opacity .3s;pointer-events:none;max-width:90%;text-align:center}
 .toast.visible{opacity:1}
 </style>
 </head>
 <body>
+
+<div id="bienvenue" role="status" aria-label="Bienvenue">
+  <img src="icon.svg" alt="">
+  <h1>Bienvenue<br>dans votre studio vocal</h1>
+  <div class="bv-onde"><span></span><span></span><span></span><span></span><span></span></div>
+  <p>Lovwane Studio</p>
+</div>
 
 <header class="entete">
   <img src="icon.svg" alt="">
@@ -1125,6 +1152,30 @@ $('#sv-histo').addEventListener('click', e=>{
   const liste = b.dataset.type==='s' ? donnees.seances : donnees.journal;
   liste.splice(Number(b.dataset.i),1); sauver(); rendreSuivi();
 });
+
+/* ---------- Titres h1 toujours sur une seule ligne ---------- */
+function ajusterTitres(){
+  $$('main h1').forEach(h=>{
+    if(!h.offsetParent) return;           // titre caché : on l'ajustera quand il sera visible
+    h.style.fontSize='';
+    let taille=parseFloat(getComputedStyle(h).fontSize), n=0;
+    while(h.scrollWidth>h.clientWidth+1 && taille>14 && n<40){ taille-=1; h.style.fontSize=taille+'px'; n++; }
+  });
+}
+window.addEventListener('resize', ajusterTitres);
+window.addEventListener('orientationchange', ()=>setTimeout(ajusterTitres,200));
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(ajusterTitres);
+const _afficher=afficher; afficher=function(id){ _afficher(id); ajusterTitres(); };
+const _montrerVue=montrerVue; montrerVue=function(id){ _montrerVue(id); ajusterTitres(); };
+
+/* ---------- Écran de bienvenue ---------- */
+(function(){
+  const bv=$('#bienvenue'); if(!bv) return;
+  let fini=false;
+  const fermer=()=>{ if(fini) return; fini=true; bv.classList.add('sortie'); setTimeout(()=>{ bv.remove(); ajusterTitres(); },850); };
+  setTimeout(fermer, 3200);               // ≈ 0,9 s de fondu + 2,3 s d'affichage
+  bv.addEventListener('click', fermer);   // un toucher permet de passer
+})();
 
 /* ---------- Démarrage ---------- */
 majPuces();
