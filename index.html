@@ -90,13 +90,12 @@ nav.barre{position:fixed;bottom:0;left:0;right:0;background:var(--blanc);border-
 
 /* Accueil : une mise en page aérée */
 #accueil{padding-top:6px}
-.hero-accueil{position:relative;overflow:hidden;padding:30px 24px 26px;border-radius:26px;margin-bottom:22px}
+.hero-accueil{position:relative;overflow:hidden;padding:36px 24px 30px;border-radius:26px;margin-bottom:22px}
 .hero-accueil::before,.hero-accueil::after{content:"";position:absolute;border-radius:50%;border:1.5px solid rgba(255,255,255,.14);pointer-events:none}
 .hero-accueil::before{width:220px;height:220px;right:-70px;top:-80px}
 .hero-accueil::after{width:140px;height:140px;right:-30px;top:-40px;border-color:rgba(227,179,189,.35)}
-.hero-accueil .salut{font-size:.85rem;letter-spacing:.14em;text-transform:uppercase;opacity:.75;margin-bottom:6px}
-.hero-accueil h1{font-size:clamp(1.15rem, calc((100vw - 80px) / 10.6), 2.4rem);margin-bottom:4px}
-.hero-accueil .btn{margin-top:24px;width:100%;white-space:nowrap;padding:14px 16px}
+.hero-accueil h1{font-size:clamp(1.15rem, calc((100vw - 80px) / 10.6), 2.4rem);margin-bottom:12px}
+.hero-accueil .btn{margin-top:34px;width:100%;white-space:nowrap;padding:14px 16px}
 .carte.section{margin-bottom:22px;padding:20px 18px 18px}
 .carte.section .section-titre{font-size:1.25rem;margin:0 0 16px;padding-bottom:12px;border-bottom:1px solid var(--ivoire-fonce)}
 .carte.section .citation{margin:0}
@@ -124,12 +123,16 @@ nav.barre{position:fixed;bottom:0;left:0;right:0;background:var(--blanc);border-
 .objectifs{display:flex;flex-direction:column;gap:12px}
 .objectif{display:flex;align-items:center;gap:14px;padding:16px 18px;background:var(--blanc);border-radius:16px;border:1px solid rgba(122,106,136,.1)}
 .objectif .vignette{flex:none;width:52px;height:52px;border-radius:12px;box-shadow:0 3px 10px rgba(60,55,80,.15)}
-.grille{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grille{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .tuile{background:#e8deeb6e;border-radius:16px;padding:16px;box-shadow:var(--ombre);border:1px solid rgba(122,106,136,.08);text-align:left;cursor:pointer;color:var(--texte);font-size:1rem}
 .tuile:active{background:var(--mauve-voile)}
-.tuile .ico{font-size:1.5rem}
-.tuile b{display:block;margin-top:6px;color:var(--ardoise)}
-.tuile small{color:var(--texte-doux)}
+@media (max-width:350px){.tuile{padding:13px 12px}}
+.tuile{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:8px;align-items:center}
+.tuile .ico{font-size:1.3rem;line-height:1}
+.tuile b{display:block;margin-top:0;color:var(--ardoise)}
+.tuile small{grid-column:1 / -1;margin-top:6px}
+.tuile b,.tuile small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tuile small{color:var(--texte-doux);font-size:.85rem}
 .objectif b{display:block;color:var(--ardoise)}
 .objectif .doux{font-size:.86rem}
 
@@ -244,7 +247,6 @@ label.case input{accent-color:var(--mauve);width:18px;height:18px}
 <!-- ============ ACCUEIL ============ -->
 <section class="page active" id="accueil">
   <div class="carte hero hero-accueil">
-    <div class="salut">Votre studio vocal</div>
     <h1>Bonjour Anne-Sophie&nbsp;!</h1>
     <div class="date" id="date-jour"></div>
     <button class="btn btn-blanc" data-aller="echauffement">🌬️ Commencer mon échauffement</button>
@@ -268,9 +270,9 @@ label.case input{accent-color:var(--mauve);width:18px;height:18px}
   <div class="carte section">
     <h2 class="section-titre">Accès rapide</h2>
     <div class="grille">
-      <button class="tuile" data-aller="exercices"><span class="ico">🎵</span><b>Exercices</b><small>Piano, chrono, bibliothèque</small></button>
-      <button class="tuile" data-aller="karaoke"><span class="ico">🎤</span><b>Karaoké</b><small>Chanter et s'enregistrer</small></button>
-      <button class="tuile" data-aller="suivi"><span class="ico">📖</span><b>Journal</b><small>Noter mon ressenti</small></button>
+      <button class="tuile" data-aller="exercices"><span class="ico">🎵</span><b>Exercices</b><small>Piano et chrono</small></button>
+      <button class="tuile" data-aller="karaoke"><span class="ico">🎤</span><b>Karaoké</b><small>M'enregistrer</small></button>
+      <button class="tuile" data-aller="suivi"><span class="ico">📖</span><b>Journal</b><small>Mon ressenti</small></button>
       <button class="tuile" data-aller="suivi"><span class="ico">📈</span><b>Progrès</b><small>Mes statistiques</small></button>
     </div>
   </div>
@@ -1165,6 +1167,15 @@ function ajusterTitres(){
 window.addEventListener('resize', ajusterTitres);
 window.addEventListener('orientationchange', ()=>setTimeout(ajusterTitres,200));
 if(document.fonts && document.fonts.ready) document.fonts.ready.then(ajusterTitres);
+// Sous-titres des tuiles : une seule ligne, même taille pour les quatre
+function ajusterTuiles(){
+  const smalls=$$('.tuile small'); if(!smalls.length || !smalls[0].offsetParent) return;
+  smalls.forEach(x=>x.style.fontSize='');
+  let taille=parseFloat(getComputedStyle(smalls[0]).fontSize), n=0;
+  const deborde=()=>smalls.some(x=>x.scrollWidth>x.clientWidth+1);
+  while(deborde() && taille>11 && n<20){ taille-=0.5; smalls.forEach(x=>x.style.fontSize=taille+'px'); n++; }
+}
+const _ajusterTitres=ajusterTitres; ajusterTitres=function(){ _ajusterTitres(); ajusterTuiles(); };
 const _afficher=afficher; afficher=function(id){ _afficher(id); ajusterTitres(); };
 const _montrerVue=montrerVue; montrerVue=function(id){ _montrerVue(id); ajusterTitres(); };
 
